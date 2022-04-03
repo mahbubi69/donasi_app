@@ -1,5 +1,4 @@
 import 'package:donasi_app/colors/colors.dart';
-import 'package:donasi_app/view/screen/home_screen.dart';
 import 'package:donasi_app/view/screen/login_screen.dart';
 import 'package:donasi_app/view/widget/login/already_account_chek.dart';
 import 'package:donasi_app/view/widget/login/button_style1.dart';

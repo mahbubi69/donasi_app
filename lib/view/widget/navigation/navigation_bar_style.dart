@@ -55,7 +55,8 @@ class _NavigationBarStyleState extends State<NavigationBarStyle> {
                     BottomNavigationBarItem(
                         icon: Icon(Icons.home_outlined), label: 'Home'),
                     BottomNavigationBarItem(
-                        icon: Icon(Icons.notifications_outlined), label: 'Notif'),
+                        icon: Icon(Icons.notifications_outlined),
+                        label: 'Notif'),
                     BottomNavigationBarItem(
                         icon: Icon(Icons.person_outline), label: 'Profile'),
                   ],

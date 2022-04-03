@@ -33,7 +33,7 @@ class InputPassword extends StatelessWidget {
                 onPressed: btnIconHd),
             icon: Icon(
               icon,
-              color:  pink,
+              color: pink,
             ),
             hintText: hintText,
             border: InputBorder.none),

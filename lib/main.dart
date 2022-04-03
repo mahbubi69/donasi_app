@@ -1,5 +1,4 @@
-import 'package:donasi_app/colors/colors.dart';
-import 'package:donasi_app/view/screen/login_screen.dart';
+import 'package:donasi_app/view/screen/splash_scren.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,12 +11,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: const LoginScreen(),
-      theme:
-          ThemeData(primaryColor: pink, scaffoldBackgroundColor: Colors.white),
+      home: SplashScreen(),
+      // theme:
+      //     ThemeData(primaryColor: pink, scaffoldBackgroundColor: Colors.white),
     );
   }
 }

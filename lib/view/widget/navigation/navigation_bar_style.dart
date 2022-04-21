@@ -1,6 +1,6 @@
 import 'package:donasi_app/colors/colors.dart';
 import 'package:donasi_app/view/screen/home_screen.dart';
-import 'package:donasi_app/view/screen/notivications_screen.dart';
+import 'package:donasi_app/view/screen/report_donasi_screen.dart';
 import 'package:donasi_app/view/screen/profile_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -21,16 +21,10 @@ class _NavigationBarStyleState extends State<NavigationBarStyle> {
     const ProfileScreen(),
   ];
 
-// void onItemSelectIndex(int index){
-//   setState(() {
-//     selectButton = index;
-//   });
-// }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
+    return SizedBox(
+      child: Stack(
         children: [
           ListLayout.elementAt(layoutPage),
           Padding(
@@ -38,7 +32,7 @@ class _NavigationBarStyleState extends State<NavigationBarStyle> {
             child: Align(
               alignment: const Alignment(0.0, 1.0),
               child: ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(30)),
+                borderRadius: const BorderRadius.all(Radius.circular(25)),
                 child: BottomNavigationBar(
                   selectedItemColor: pink,
                   unselectedItemColor: Colors.grey,
@@ -53,12 +47,16 @@ class _NavigationBarStyleState extends State<NavigationBarStyle> {
                   },
                   items: const [
                     BottomNavigationBarItem(
-                        icon: Icon(Icons.home_outlined), label: 'Home'),
+                      icon: Icon(Icons.home_outlined),
+                      label: 'Home',
+                    ),
                     BottomNavigationBarItem(
                         icon: Icon(Icons.notifications_outlined),
                         label: 'Notif'),
                     BottomNavigationBarItem(
-                        icon: Icon(Icons.person_outline), label: 'Profile'),
+                      icon: Icon(Icons.person_outline),
+                      label: 'Profile',
+                    ),
                   ],
                 ),
               ),

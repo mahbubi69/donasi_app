@@ -1,3 +1,4 @@
+import 'package:donasi_app/view/widget/report-donasi/body_report_donasi.dart';
 import 'package:flutter/material.dart';
 
 class NotivocationsScreen extends StatefulWidget {
@@ -10,8 +11,6 @@ class NotivocationsScreen extends StatefulWidget {
 class _NotivocationsScreenState extends State<NotivocationsScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text('Notif')),
-    );
+    return const Scaffold(body: BodyReportDonasi());
   }
 }

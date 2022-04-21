@@ -1,10 +1,7 @@
-import 'package:donasi_app/colors/colors.dart';
-import 'package:donasi_app/view/screen/login_screen.dart';
-import 'package:donasi_app/view/widget/login/already_account_chek.dart';
-import 'package:donasi_app/view/widget/login/button_style1.dart';
-import 'package:donasi_app/view/widget/login/input_email.dart';
-import 'package:donasi_app/view/widget/login/input_password.dart';
 import 'package:flutter/material.dart';
+
+import '../../../colors/colors.dart';
+import '../login/already_account_chek.dart';
 
 class BodyRegister extends StatefulWidget {
   const BodyRegister({Key? key}) : super(key: key);
@@ -14,7 +11,7 @@ class BodyRegister extends StatefulWidget {
 }
 
 class _BodyRegisterState extends State<BodyRegister> {
-  bool _isObscure = true;
+  bool isObscure = true;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -25,69 +22,130 @@ class _BodyRegisterState extends State<BodyRegister> {
         alignment: Alignment.center,
         children: <Widget>[
           SingleChildScrollView(
-              child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text(
-                'Register',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 35,
-                  color: pink,
-                  height: 1,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text(
+                  'Daftar Akun Baru',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 35,
+                      color: pink,
+                      height: 1),
                 ),
-              ),
-              Image.asset(
-                'assets/icons/bg_register.png',
-                height: size.height * 0.40,
-              ),
-              SizedBox(
-                height: size.height * 0.01,
-              ),
-              InputUsername(
-                hintText: 'Nama',
-                onChanged: (value) {},
-                inputType: TextInputType.emailAddress,
-                icon: Icons.person_outline,
-              ),
-              InputUsername(
-                  hintText: 'Email',
-                  onChanged: (value) {},
-                  inputType: TextInputType.emailAddress,
-                  icon: Icons.email_outlined),
-              InputPassword(
-                hintText: 'Password',
-                icon: Icons.lock_outline,
-                onChanged: (value) {},
-                iconHd: _isObscure ? Icons.visibility : Icons.visibility_off,
-                btnIconHd: () {
-                  setState(() {
-                    _isObscure = !_isObscure;
-                  });
-                },
-                isObscure: _isObscure,
-              ),
-              SizedBox(
-                height: size.height * 0.01,
-              ),
-              ButtonStyle1(
-                size: size,
-                color: pink,
-                onPress: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginScreen()));
-                },
-                text: 'Register',
-              ),
-              AllReadyAccountChek(
-                  login: false,
-                  press: () {
-                    Navigator.pop(context);
-                  })
-            ],
-          ))
+                Image.asset(
+                  'assets/icons/bg_register.png',
+                  height: size.height * 0.40,
+                ),
+                SizedBox(
+                  height: size.height * 0.01,
+                ),
+                //input nama
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  width: size.width * 0.8,
+                  decoration: BoxDecoration(
+                      color: kprimary, borderRadius: BorderRadius.circular(20)),
+                  child: TextFormField(
+                    // controller: emailControll,
+                    // onChanged: onChanged,
+                    decoration: const InputDecoration(
+                      icon: Icon(
+                        Icons.person_outline,
+                        color: pink,
+                      ),
+                      hintText: 'nama',
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+                //input email
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  width: size.width * 0.8,
+                  decoration: BoxDecoration(
+                      color: kprimary, borderRadius: BorderRadius.circular(20)),
+                  child: TextFormField(
+                    // controller: emailControll,
+                    // onChanged: onChanged,
+                    decoration: const InputDecoration(
+                      icon: Icon(
+                        Icons.email,
+                        color: pink,
+                      ),
+                      hintText: 'email',
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+                //input password
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  width: size.width * 0.8,
+                  decoration: BoxDecoration(
+                      color: kprimary, borderRadius: BorderRadius.circular(20)),
+                  child: TextField(
+                    obscureText: isObscure,
+                    // controller: passwordControll,
+                    // onChanged: onChanged,
+                    decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                          icon: Icon(isObscure
+                              ? Icons.visibility
+                              : Icons.visibility_off),
+                          color: pink,
+                          onPressed: () {
+                            setState(() {
+                              isObscure = !isObscure;
+                            });
+                          },
+                        ),
+                        icon: const Icon(
+                          Icons.lock_outlined,
+                          color: pink,
+                        ),
+                        hintText: 'passwod',
+                        border: InputBorder.none),
+                  ),
+                ),
+                //button
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 10),
+                  width: size.width * 0.8,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: FlatButton(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 20, horizontal: 10),
+                      color: pink,
+                      onPressed: () {
+                        setState(() {
+                          // showErrorDialog('error', 'cek anda');
+                          // loginSubmit(email, password, context);
+                        });
+                      },
+                      child: const Text(
+                        'Daftar',
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                    ),
+                  ),
+                ),
+                // login user
+                AllReadyAccountChek(
+                    login: false,
+                    press: () {
+                      Navigator.pop(context);
+                    })
+              ],
+            ),
+          )
         ],
       ),
     );

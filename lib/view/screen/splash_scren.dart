@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:donasi_app/colors/colors.dart';
 import 'package:donasi_app/view/screen/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/percent_indicator.dart';
+// import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -15,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(
-        const Duration(seconds: 1),
+        const Duration(seconds: 2),
         () => Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => const LoginScreen()),
@@ -44,6 +46,21 @@ class _SplashScreenState extends State<SplashScreen> {
               height: 300.0,
               width: 300.0,
             ),
+            //loading
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: LinearPercentIndicator(
+                width: MediaQuery.of(context).size.width - 50,
+                animation: true,
+                lineHeight: 20.0,
+                animationDuration: 2000,
+                percent: 0.9,
+                center: const Text("90.0%"),
+                linearStrokeCap: LinearStrokeCap.roundAll,
+                progressColor: kprimary,
+              ),
+            ),
+
             const Text(
               'Salurkan donasi untuk membantu sesama',
               textAlign: TextAlign.center,

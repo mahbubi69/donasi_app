@@ -26,10 +26,10 @@ class _BodyDetailProfileState extends State<BodyDetailProfile> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: const [
-                   TextFieldStyleProfile(hintText: 'nama'),
-                   TextFieldStyleProfile(hintText: 'alamat'),
-                   TextFieldStyleProfile(hintText: 'tgl_lahir'),
-                   TextFieldStyleProfile(hintText: 'nomor_hp'),
+                  TextFieldStyleProfile(hintText: 'Nama'),
+                  TextFieldStyleProfile(hintText: 'Alamat'),
+                  TextFieldStyleProfile(hintText: 'Tgl_Lahir'),
+                  TextFieldStyleProfile(hintText: 'Nomor_Hp'),
                 ],
               ),
             ),

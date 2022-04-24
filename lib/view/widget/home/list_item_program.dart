@@ -39,7 +39,9 @@ class ListItemProgram extends StatelessWidget {
             Text(
               'Yarnima',
               style: TextStyle(
-                  color: kTextColor, fontWeight: FontWeight.bold, fontSize: 19),
+                  color: kTextColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.5),
             ),
           ],
         ),

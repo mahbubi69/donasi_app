@@ -75,7 +75,7 @@ class _BodyLoginState extends State<BodyLogin> {
                         Icons.email,
                         color: pink,
                       ),
-                      hintText: 'email',
+                      hintText: 'Email',
                       border: InputBorder.none,
                     ),
                   ),
@@ -108,7 +108,7 @@ class _BodyLoginState extends State<BodyLogin> {
                           Icons.lock_outlined,
                           color: pink,
                         ),
-                        hintText: 'passwod',
+                        hintText: 'Password',
                         border: InputBorder.none),
                   ),
                 ),
@@ -123,16 +123,19 @@ class _BodyLoginState extends State<BodyLogin> {
                           vertical: 20, horizontal: 10),
                       color: pink,
                       onPressed: () {
-                        setState(() {
-                          // showErrorDialog('error', 'cek anda');
-                          // loginSubmit(email, password, context);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const NavigationBarStyle(),
-                            ),
-                          );
-                        },);
+                        setState(
+                          () {
+                            // showErrorDialog('error', 'cek anda');
+                            // loginSubmit(email, password, context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const NavigationBarStyle(),
+                              ),
+                            );
+                          },
+                        );
                       },
                       child: const Text(
                         'Login',
@@ -160,7 +163,7 @@ class _BodyLoginState extends State<BodyLogin> {
       String email, String password, BuildContext ctx) async {
     String? email = emailControll.value.text;
     String? password = passwordControll.value.text;
-    var response = await repoUser.LoginRepo(email, password);
+    var response = await repoUser.LoginRepo(email ?? "", password ?? "");
     logger.d(response.status);
 
     if (response.status == "berhasil login") {

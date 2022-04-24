@@ -1,15 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-// ignore: must_be_immutable
 class BodySetting extends StatelessWidget {
-  BodySetting({
-    Key? key,
-    this.light = true,
-    required this.onTap,
-  }) : super(key: key);
-
-  final bool light;
-  late VoidCallback onTap;
+  const BodySetting({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,14 +16,31 @@ class BodySetting extends StatelessWidget {
             style: Theme.of(context).textTheme.button,
           ),
           const SizedBox(
-            width: 30,
+            width: 50,
           ),
-          Switch(
-            value: light,
-            onChanged: (state) {
-              onTap = state as VoidCallback;
-            },
-          ),
+          RaisedButton(
+              child: Icon(Icons.brightness_6_outlined),
+              onPressed: () {
+                Get.isDarkMode
+                    ? Get.changeTheme(ThemeData.light())
+                    : Get.changeTheme(ThemeData.light());
+              }),
+          // FlutterSwitch(
+          //   width: 100,
+          //   height: 40.0,
+          //   valueFontSize: 18.0,
+          //   toggleSize: 45.0,
+          //   value: status,
+          //   borderRadius: 30.0,
+          //   padding: 8.0,
+          //   showOnOff: true,
+          //   onToggle: (val) {
+          //     setState(() {
+          //       status = val;
+
+          //     });
+          //   },
+          // ),
         ],
       ),
     );

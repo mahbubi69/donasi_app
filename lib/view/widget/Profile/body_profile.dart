@@ -17,7 +17,7 @@ class BodyProfile extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Column(
         children: [
-          const SizedBox(height: 70),
+          const SizedBox(height: 90),
           const Center(
             child: ImagProfileStyle(),
           ),
@@ -49,17 +49,17 @@ class BodyProfile extends StatelessWidget {
                         builder: (context) => const SettingScreen()));
               },
               icon: 'assets/svg/ic_setting.svg'),
-          ProfileMenuStyle(
-            text: 'About',
-            press: () {
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                content: Text('version Applications 1.0.0',
-                    style: TextStyle(fontSize: 15)),
-                backgroundColor: pink,
-              ));
-            },
-            icon: 'assets/svg/ic_about.svg',
-          ),
+          // ProfileMenuStyle(
+          //   text: 'About',
+          //   press: () {
+          //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          //       content: Text('version Applications 1.0.0',
+          //           style: TextStyle(fontSize: 15)),
+          //       backgroundColor: pink,
+          //     ));
+          //   },
+          //   icon: 'assets/svg/ic_about.svg',
+          // ),
           ProfileMenuStyle(
             text: 'Log Out',
             press: () {},

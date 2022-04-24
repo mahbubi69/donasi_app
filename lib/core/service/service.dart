@@ -1,12 +1,10 @@
 import 'dart:convert';
 
-import 'package:donasi_app/core/model/login_model.dart';
 import 'package:donasi_app/core/response/response_login_user.dart';
-import 'package:donasi_app/core/utils/value.dart';
 import 'package:http/http.dart' as http;
 
 class ServiceUser {
-  String BASE_URL = 'https://7d3f-180-253-164-234.ngrok.io';
+  String BASE_URL = 'https://ee1f-180-253-164-224.ngrok.io';
   //login user
   Future<ResponseLoginUser> loginUserSevice(
       String email, String password) async {

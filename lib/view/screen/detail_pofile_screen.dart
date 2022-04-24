@@ -15,18 +15,36 @@ class _DetailProfileScreenState extends State<DetailProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(backgroundColor: pink, actions: <Widget>[
-        IconButton(
-          icon: const Icon(Icons.edit_calendar_outlined),
-          tooltip: 'Show Snackbar',
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const EditProfileScreen()));
-          },
-        ),
-      ]),
+      appBar: AppBar(
+        backgroundColor: pink,
+        actions: <Widget>[
+          Container(
+              padding: const EdgeInsets.all(15),
+              child: InkWell(
+                child: Text(
+                  'Ubah',
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const EditProfileScreen()));
+                },
+              )),
+
+          // IconButton(
+          //   icon: const Icon(Icons.edit),
+          //   tooltip: 'Show Snackbar',
+          //   onPressed: () {
+          //     Navigator.push(
+          //         context,
+          //         MaterialPageRoute(
+          //             builder: (context) => const EditProfileScreen()));
+          //   },
+          // ),
+        ],
+      ),
       body: const BodyDetailProfile(),
     );
   }

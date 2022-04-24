@@ -26,10 +26,11 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
-        height: double.infinity,
-        width: double.infinity,
+        // height: double.infinity,
+        // width: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topRight,
@@ -39,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
               'assets/icons/bg_splash_screen.png',
@@ -47,8 +48,11 @@ class _SplashScreenState extends State<SplashScreen> {
               width: 300.0,
             ),
             //loading
+            SizedBox(
+              height: size.height * 0.06,
+            ),
             Padding(
-              padding: const EdgeInsets.all(15.0),
+              padding: const EdgeInsets.all(20.0),
               child: LinearPercentIndicator(
                 width: MediaQuery.of(context).size.width - 50,
                 animation: true,
@@ -60,9 +64,24 @@ class _SplashScreenState extends State<SplashScreen> {
                 progressColor: kprimary,
               ),
             ),
+            SizedBox(
+              height: size.height * 0.2,
+            ),
 
             const Text(
               'Salurkan donasi untuk membantu sesama',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18.0),
+            ),
+            SizedBox(
+              height: size.height * 0.01,
+            ),
+
+            const Text(
+              'vesion 1.0.0',
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: Colors.white,

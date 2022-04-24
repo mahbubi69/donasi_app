@@ -9,6 +9,7 @@ class Repository extends Service {
   final storage = const FlutterSecureStorage();
 
   //logIn User
+  // ignore: non_constant_identifier_names
   Future<ResponseLoginUser> LoginRepo(String email, String password) async {
     return apiServiceUser.loginUserSevice(email, password);
   }

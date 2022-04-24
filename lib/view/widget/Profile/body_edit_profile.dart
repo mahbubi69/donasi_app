@@ -23,7 +23,7 @@ class _BodyEditProfileState extends State<BodyEditProfile> {
               // controller: controllerName,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: 'nama',
+                hintText: 'Nama',
               ),
             ),
           ),

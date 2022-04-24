@@ -16,9 +16,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: pink,
-        title: Text('Edit Profile'),
+        title: const Text('Edit Profile'),
       ),
-      body: BodyEditProfile(),
+      body: const BodyEditProfile(),
     );
   }
 }

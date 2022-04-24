@@ -35,7 +35,7 @@ class ListItemReportDonasi extends StatelessWidget {
               Text(
                 'Yarnima',
                 style: TextStyle(
-                    fontWeight: FontWeight.bold, color: pink, fontSize: 24),
+                    fontWeight: FontWeight.bold, color: pink, fontSize: 17),
               ),
             ],
           ),
@@ -52,7 +52,7 @@ class ListItemReportDonasi extends StatelessWidget {
               Text(
                 'tenggarang-bondowoso',
                 style: TextStyle(
-                    fontWeight: FontWeight.bold, color: pink, fontSize: 20),
+                    fontWeight: FontWeight.bold, color: pink, fontSize: 16),
               ),
             ],
           ),

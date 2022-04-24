@@ -20,7 +20,7 @@ class TextFieldStyleProfile extends StatelessWidget {
       child: TextField(
         decoration: InputDecoration(
             hintText: hintText,
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
               letterSpacing: 2,
               color: pink,
               fontWeight: FontWeight.bold,

@@ -1,12 +1,11 @@
+// ignore_for_file: deprecated_member_use
 import 'package:donasi_app/core/repository/repository.dart';
-import 'package:donasi_app/view/screen/home_screen.dart';
-import 'package:donasi_app/view/widget/home/detail_list_item_program.dart';
-import 'package:donasi_app/view/widget/home/list_item_program.dart';
 import 'package:donasi_app/view/widget/login/already_account_chek.dart';
 import 'package:donasi_app/view/widget/navigation/navigation_bar_style.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import '../../../colors/colors.dart';
+import '../../../core/utils/value.dart';
 import '../../screen/register_screen.dart';
 
 class BodyLogin extends StatefulWidget {
@@ -53,7 +52,7 @@ class _BodyLoginState extends State<BodyLogin> {
                       height: 1),
                 ),
                 Image.asset(
-                  'assets/icons/bg_login.png',
+                  'assets/icons/bg_register.png',
                   height: size.height * 0.40,
                 ),
                 SizedBox(
@@ -69,6 +68,8 @@ class _BodyLoginState extends State<BodyLogin> {
                       color: kprimary, borderRadius: BorderRadius.circular(20)),
                   child: TextFormField(
                     controller: emailControll,
+                    validator: (value) =>
+                        value!.contains('@') ? 'masukkan email' : null,
                     // onChanged: onChanged,
                     decoration: const InputDecoration(
                       icon: Icon(
@@ -125,15 +126,12 @@ class _BodyLoginState extends State<BodyLogin> {
                       onPressed: () {
                         setState(
                           () {
-                            // showErrorDialog('error', 'cek anda');
-                            // loginSubmit(email, password, context);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const NavigationBarStyle(),
-                              ),
-                            );
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) =>
+                            //             const NavigationBarStyle()));
+                            loginSubmit(email, password, context);
                           },
                         );
                       },
@@ -145,12 +143,14 @@ class _BodyLoginState extends State<BodyLogin> {
                   ),
                 ),
                 // chek akun
-                AllReadyAccountChek(press: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const RegisterScreen()));
-                })
+                AllReadyAccountChek(
+                  press: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const RegisterScreen()));
+                  },
+                )
               ],
             ),
           )
@@ -160,16 +160,22 @@ class _BodyLoginState extends State<BodyLogin> {
   }
 
   Future<void> loginSubmit(
-      String email, String password, BuildContext ctx) async {
-    String? email = emailControll.value.text;
-    String? password = passwordControll.value.text;
-    var response = await repoUser.LoginRepo(email ?? "", password ?? "");
+      String email, String password, BuildContext context) async {
+    String email = emailControll.value.text;
+    String password = passwordControll.value.text;
+    var response = await repoUser.LoginRepo(
+      email,
+      password,
+    );
     logger.d(response.status);
 
-    if (response.status == "berhasil login") {
+    if (response.status == 200) {
       logger.d("Success Login");
       try {
-        Repository().sharedPrefendLoginStatus(true);
+        logger.d(response.token.toString());
+        // writeSecureData('token', response.token!);
+        sharedPrefendSetToken(response.token!);
+
         await Navigator.push(
           context,
           MaterialPageRoute(
@@ -180,7 +186,7 @@ class _BodyLoginState extends State<BodyLogin> {
         print(e);
       }
     } else {
-      showErrorDialog('Error', response.status);
+      showErrorDialog('Error', response.message);
     }
   }
 

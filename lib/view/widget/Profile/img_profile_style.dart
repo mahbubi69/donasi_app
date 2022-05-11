@@ -5,7 +5,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 class ImagProfileStyle extends StatelessWidget {
   const ImagProfileStyle({
     Key? key,
+    required this.onTap,
+    required this.assetImage,
   }) : super(key: key);
+
+  final VoidCallback onTap;
+  final String assetImage;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +22,7 @@ class ImagProfileStyle extends StatelessWidget {
         clipBehavior: Clip.none,
         children: [
           const CircleAvatar(
-            backgroundImage: AssetImage('assets/images/profile.png'),
+            backgroundImage: AssetImage('assets/images/profile'),
           ),
           Positioned(
             right: -16,
@@ -25,17 +30,13 @@ class ImagProfileStyle extends StatelessWidget {
             child: SizedBox(
               height: 46,
               width: 46,
-              child: TextButton(
-                style: TextButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-                    side: const BorderSide(color: Colors.white),
-                  ),
-                  primary: Colors.white,
-                  backgroundColor: kprimary,
+              child: FloatingActionButton(
+                backgroundColor: Colors.green,
+                onPressed: onTap,
+                child: SvgPicture.asset(
+                  'assets/svg/ic_camera.svg',
+                  color: pink,
                 ),
-                onPressed: () {},
-                child: SvgPicture.asset('assets/svg/ic_camera.svg',color: pink,),
               ),
             ),
           )

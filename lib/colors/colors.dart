@@ -7,7 +7,7 @@ const kBackgroundColor = Color(0xFFF9F8FD);
 
 const red = Color(0xFFB71C1C);
 const amber = Color(0xFFFFA000);
-const pink = Color(0xFFF06292);
-const kprimary = Color(0xFFFCE4EC);
+const pink = Color.fromARGB(255, 3, 95, 19);
+const kprimary = Color.fromARGB(255, 34, 139, 51);
 
 const double kDefaultPadding = 20.0;

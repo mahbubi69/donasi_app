@@ -1,7 +1,10 @@
+import 'package:donasi_app/core/repository/repository.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 
 import '../../../colors/colors.dart';
 import '../login/already_account_chek.dart';
+import 'package:get/get.dart';
 
 class BodyRegister extends StatefulWidget {
   const BodyRegister({Key? key}) : super(key: key);
@@ -10,7 +13,42 @@ class BodyRegister extends StatefulWidget {
   State<BodyRegister> createState() => _BodyRegisterState();
 }
 
+enum SingingCharacter { L, P }
+
 class _BodyRegisterState extends State<BodyRegister> {
+  String nama = '',
+      email = '',
+      password = '',
+      role = '',
+      alamat = '',
+      jenisKelamin = '',
+      tanggalLahir = '',
+      noHp = '';
+
+  TextEditingController namaControll = TextEditingController();
+  TextEditingController emailControll = TextEditingController();
+  TextEditingController passwordControll = TextEditingController();
+  TextEditingController alamatControll = TextEditingController();
+  TextEditingController jenisKelaminControll = TextEditingController();
+  TextEditingController tanggalLahirControll = TextEditingController();
+  TextEditingController nomorHpControll = TextEditingController();
+
+  final Repository repository = Repository();
+  var logger = Logger();
+  String jenisKlamin = '';
+
+  @override
+  void initState() {
+    super.initState();
+    emailControll = TextEditingController();
+    passwordControll = TextEditingController();
+    alamatControll = TextEditingController();
+    jenisKelaminControll = TextEditingController();
+    tanggalLahirControll = TextEditingController();
+    nomorHpControll = TextEditingController();
+  }
+
+  SingingCharacter _character = SingingCharacter.L;
   bool isObscure = true;
   @override
   Widget build(BuildContext context) {
@@ -33,36 +71,73 @@ class _BodyRegisterState extends State<BodyRegister> {
                       color: pink,
                       height: 1),
                 ),
-                Image.asset(
-                  'assets/icons/bg_register.png',
-                  height: size.height * 0.40,
-                ),
                 SizedBox(
                   height: size.height * 0.01,
                 ),
                 //input nama
                 Container(
-                  margin: const EdgeInsets.symmetric(vertical: 10),
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   width: size.width * 0.8,
                   decoration: BoxDecoration(
                       color: kprimary, borderRadius: BorderRadius.circular(20)),
                   child: TextFormField(
-                    // controller: emailControll,
+                    controller: namaControll,
                     // onChanged: onChanged,
                     decoration: const InputDecoration(
-                      icon: Icon(
-                        Icons.person_outline,
-                        color: pink,
-                      ),
                       hintText: 'Nama',
+                      hintStyle: TextStyle(fontSize: 17.0, color: Colors.white),
                       border: InputBorder.none,
                     ),
                   ),
+                ),
+                SizedBox(
+                  height: size.height * 0.02,
                 ),
                 //input email
                 Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  width: size.width * 0.8,
+                  decoration: BoxDecoration(
+                      color: kprimary, borderRadius: BorderRadius.circular(20)),
+                  child: TextFormField(
+                    controller: emailControll,
+                    validator: (value) =>
+                        GetUtils.isEmail(value!) ? null : 'Harus Email',
+                    // onChanged: onChanged,
+                    decoration: const InputDecoration(
+                      hintText: 'Email',
+                      hintStyle: TextStyle(fontSize: 17.0, color: Colors.white),
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: size.height * 0.02,
+                ),
+                //input password
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  width: size.width * 0.8,
+                  decoration: BoxDecoration(
+                      color: kprimary, borderRadius: BorderRadius.circular(20)),
+                  child: TextFormField(
+                    controller: passwordControll,
+                    // onChanged: onChanged,
+                    decoration: const InputDecoration(
+                      hintText: 'Password',
+                      hintStyle: TextStyle(fontSize: 17.0, color: Colors.white),
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: size.height * 0.01,
+                ),
+                //alamat
+                Container(
                   margin: const EdgeInsets.symmetric(vertical: 10),
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -70,19 +145,15 @@ class _BodyRegisterState extends State<BodyRegister> {
                   decoration: BoxDecoration(
                       color: kprimary, borderRadius: BorderRadius.circular(20)),
                   child: TextFormField(
-                    // controller: emailControll,
+                    controller: alamatControll,
                     // onChanged: onChanged,
                     decoration: const InputDecoration(
-                      icon: Icon(
-                        Icons.email,
-                        color: pink,
-                      ),
-                      hintText: 'Email',
+                      hintText: 'Alamat',
+                      hintStyle: TextStyle(fontSize: 17.0, color: Colors.white),
                       border: InputBorder.none,
                     ),
                   ),
                 ),
-                //input password
                 Container(
                   margin: const EdgeInsets.symmetric(vertical: 10),
                   padding:
@@ -90,34 +161,63 @@ class _BodyRegisterState extends State<BodyRegister> {
                   width: size.width * 0.8,
                   decoration: BoxDecoration(
                       color: kprimary, borderRadius: BorderRadius.circular(20)),
-                  child: TextField(
-                    obscureText: isObscure,
-                    // controller: passwordControll,
+                  child: TextFormField(
+                    controller: jenisKelaminControll,
                     // onChanged: onChanged,
-                    decoration: InputDecoration(
-                        suffixIcon: IconButton(
-                          icon: Icon(isObscure
-                              ? Icons.visibility
-                              : Icons.visibility_off),
-                          color: pink,
-                          onPressed: () {
-                            setState(() {
-                              isObscure = !isObscure;
-                            });
-                          },
-                        ),
-                        icon: const Icon(
-                          Icons.lock_outlined,
-                          color: pink,
-                        ),
-                        hintText: 'Password',
-                        border: InputBorder.none),
+                    decoration: const InputDecoration(
+                      hintText: 'Jenis Kelamin',
+                      hintStyle: TextStyle(fontSize: 17.0, color: Colors.white),
+                      border: InputBorder.none,
+                    ),
                   ),
+                ),
+                SizedBox(
+                  height: size.height * 0.01,
+                ),
+                //tanggal lahir
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  width: size.width * 0.8,
+                  decoration: BoxDecoration(
+                      color: kprimary, borderRadius: BorderRadius.circular(20)),
+                  child: TextFormField(
+                    controller: tanggalLahirControll,
+                    keyboardType: TextInputType.datetime,
+                    // onChanged: onChanged,
+                    decoration: const InputDecoration(
+                      hintText: 'Tanggal Lahir',
+                      hintStyle: TextStyle(fontSize: 17.0, color: Colors.white),
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: size.height * 0.02,
+                ),
+                //nomor hp
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  width: size.width * 0.8,
+                  decoration: BoxDecoration(
+                      color: kprimary, borderRadius: BorderRadius.circular(20)),
+                  child: TextFormField(
+                    controller: nomorHpControll,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      hintText: 'No Hp',
+                      hintStyle: TextStyle(fontSize: 17.0, color: Colors.white),
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: size.height * 0.02,
                 ),
                 //button
                 Container(
-                  margin: const EdgeInsets.symmetric(vertical: 10),
-                  width: size.width * 0.8,
+                  width: size.width * 0.6,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: FlatButton(
@@ -126,8 +226,8 @@ class _BodyRegisterState extends State<BodyRegister> {
                       color: pink,
                       onPressed: () {
                         setState(() {
-                          // showErrorDialog('error', 'cek anda');
-                          // loginSubmit(email, password, context);
+                          registerSubmit(nama, email, password, role, alamat,
+                              jenisKelamin, tanggalLahir, noHp, context);
                         });
                       },
                       child: const Text(
@@ -136,6 +236,9 @@ class _BodyRegisterState extends State<BodyRegister> {
                       ),
                     ),
                   ),
+                ),
+                SizedBox(
+                  height: size.height * 0.01,
                 ),
                 // login user
                 AllReadyAccountChek(
@@ -146,6 +249,60 @@ class _BodyRegisterState extends State<BodyRegister> {
               ],
             ),
           )
+        ],
+      ),
+    );
+  }
+
+  Future<void> registerSubmit(
+    final String nama,
+    final String email,
+    final String password,
+    final String role,
+    final String alamat,
+    final String jenisKelamin,
+    final String tanggalLahir,
+    final String noHp,
+    BuildContext contex,
+  ) async {
+    String nama = namaControll.value.text;
+    String email = emailControll.value.text;
+    String password = passwordControll.value.text;
+    String role = '2';
+    String alamat = alamatControll.value.text;
+    String jenisKelamin = jenisKelaminControll.value.text;
+    String tanggalLahir = tanggalLahirControll.value.text;
+    String nomorHp = nomorHpControll.value.text;
+
+    var reponse = await repository.RegisterRepo(
+      nama,
+      email,
+      password,
+      role,
+      alamat,
+      jenisKelamin,
+      tanggalLahir,
+      nomorHp,
+    );
+    logger.d(reponse.status);
+    if (reponse.status == 200) {
+      showDialogRegister('Register', 'Berhasil Register');
+    } else {
+      showDialogRegister('Error', reponse.message);
+    }
+  }
+
+  Future<void> showDialogRegister(String title, String message) {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Ok'),
+          ),
         ],
       ),
     );

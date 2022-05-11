@@ -1,28 +1,42 @@
 import 'dart:developer';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:donasi_app/core/response/response_login_user.dart';
-import 'package:donasi_app/core/service/service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:donasi_app/core/response/resp_register_user.dart';
+import 'package:donasi_app/core/response/resp_login_user.dart';
+
+import '../service/service.dart';
 
 class Repository extends Service {
   final ServiceUser apiServiceUser = ServiceUser();
-  final storage = const FlutterSecureStorage();
 
-  //logIn User
+  //logIn
   // ignore: non_constant_identifier_names
-  Future<ResponseLoginUser> LoginRepo(String email, String password) async {
-    return apiServiceUser.loginUserSevice(email, password);
+  Future<ResponseLogin> LoginRepo(String email, String password) async {
+    return apiServiceUser.loginUserServic(
+      email,
+      password,
+    );
   }
 
-  Object writeSecureData(String key, String value) {
-    var writeData = storage.write(key: key, value: value);
-    return writeData;
-  }
-
-  //shared prefens
-  void sharedPrefendLoginStatus(bool status) async {
-    //shared prefens
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setBool('loginStatus', status);
+  //register
+  // ignore: non_constant_identifier_names
+  Future<ResponseRegister> RegisterRepo(
+    final String nama,
+    final String email,
+    final String password,
+    final String role,
+    final String alamat,
+    final String jenisKelamin,
+    final String tanggalLahir,
+    final String noHp,
+  ) {
+    return apiServiceUser.registerUser(
+      nama,
+      email,
+      password,
+      role,
+      alamat,
+      jenisKelamin,
+      tanggalLahir,
+      noHp,
+    );
   }
 }

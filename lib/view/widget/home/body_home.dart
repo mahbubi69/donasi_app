@@ -1,6 +1,9 @@
-import 'package:donasi_app/view/widget/home/detail_list_item_program.dart';
+import 'package:donasi_app/colors/colors.dart';
+import 'package:donasi_app/core/model/model_donasi.dart';
+import 'package:donasi_app/core/repository/repository.dart';
+import 'package:donasi_app/core/utils/value.dart';
 import 'package:donasi_app/view/widget/home/header_box.dart';
-import 'package:donasi_app/view/widget/home/list_item_program.dart';
+// import 'package:donasi_app/view/widget/home/list_item_Program.dart';
 import 'package:flutter/material.dart';
 
 class BodyHome extends StatefulWidget {
@@ -11,6 +14,15 @@ class BodyHome extends StatefulWidget {
 }
 
 class _BodyHomeState extends State<BodyHome> {
+  var repoGetProgram;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    repoGetProgram = Repository().getProgramRepo();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -20,22 +32,82 @@ class _BodyHomeState extends State<BodyHome> {
         HeaderBox(
           size: size,
         ),
-        // ListItemProgram()
-        Expanded(
-          child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 0.75,
-            ),
-            itemBuilder: (context, index) => ListItemProgram(press: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const DetailListItemProgram()),
-              );
-            }),
-          ),
+        Container(
+          child: FutureBuilder<List<Program>>(
+              future: repoGetProgram,
+              builder: (context, AsyncSnapshot snapshot) {
+                if (snapshot.data == null) {
+                  return const Center(child: CircularProgressIndicator());
+                } else {
+                  List<Program> dataProgram = snapshot.data;
+                  print(dataProgram.length);
+                  return Expanded(
+                    child: GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 0.75,
+                      ),
+                      itemCount: dataProgram.length,
+                      itemBuilder: ((context, index) {
+                        Program program = dataProgram[index];
+                        return Column(
+                          children: <Widget>[
+                            Container(
+                              padding: const EdgeInsets.all(kDefaultPadding),
+                              height: 180,
+                              width: 180,
+                              decoration: BoxDecoration(
+                                color: kprimary,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Image.network(
+                                // '',
+                                BASE_URL + program.banner,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.home_outlined,
+                                  color: pink,
+                                ),
+                                Text(
+                                  // '',
+                                  '' + program.title,
+                                  style: TextStyle(
+                                      color: kTextColor,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16.5),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: const <Widget>[
+                                Icon(
+                                  Icons.location_on_outlined,
+                                  color: pink,
+                                ),
+                                Text(
+                                  'tenggarang-bondowoso',
+                                  style: TextStyle(
+                                      color: kTextColor,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            )
+                          ],
+                        );
+                      }),
+                    ),
+                  );
+                }
+              }),
         )
+        // ListItemProgram()
       ],
     );
   }

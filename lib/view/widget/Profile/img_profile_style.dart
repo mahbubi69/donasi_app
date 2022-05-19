@@ -35,7 +35,7 @@ class ImagProfileStyle extends StatelessWidget {
                 onPressed: onTap,
                 child: SvgPicture.asset(
                   'assets/svg/ic_camera.svg',
-                  color: pink,
+                  color: Colors.white,
                 ),
               ),
             ),

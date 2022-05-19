@@ -25,7 +25,9 @@ class _BodyDetailProfileState extends State<BodyDetailProfile> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: const [
-                  TextFieldStyleProfile(hintText: 'Nama'),
+                  TextFieldStyleProfile(
+                    hintText: 'Nama',
+                  ),
                   TextFieldStyleProfile(hintText: 'Alamat'),
                   TextFieldStyleProfile(hintText: 'Tgl_Lahir'),
                   TextFieldStyleProfile(hintText: 'Nomor_Hp'),
@@ -62,7 +64,7 @@ class _BodyDetailProfileState extends State<BodyDetailProfile> {
                 color: Colors.white,
                 image: const DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage('assets/images/profile.png'),
+                  image: AssetImage('assets/images/icon_user.png'),
                 ),
               ),
             )

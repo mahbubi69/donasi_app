@@ -13,7 +13,8 @@ class _BodyEditProfileState extends State<BodyEditProfile> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Padding(
+    return SingleChildScrollView(
+        child: Padding(
       padding: const EdgeInsets.all(15),
       child: Column(
         children: <Widget>[
@@ -83,6 +84,6 @@ class _BodyEditProfileState extends State<BodyEditProfile> {
           ),
         ],
       ),
-    );
+    ));
   }
 }

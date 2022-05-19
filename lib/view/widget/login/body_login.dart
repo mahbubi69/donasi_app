@@ -68,13 +68,13 @@ class _BodyLoginState extends State<BodyLogin> {
                       color: kprimary, borderRadius: BorderRadius.circular(20)),
                   child: TextFormField(
                     controller: emailControll,
-                    validator: (value) =>
-                        value!.contains('@') ? 'masukkan email' : null,
+                    // validator: (value) =>
+                    //     value!.contains('@') ? 'masukkan email' : null,
                     // onChanged: onChanged,
                     decoration: const InputDecoration(
                       icon: Icon(
                         Icons.email,
-                        color: pink,
+                        color: Colors.white,
                       ),
                       hintText: 'Email',
                       border: InputBorder.none,
@@ -107,7 +107,7 @@ class _BodyLoginState extends State<BodyLogin> {
                         ),
                         icon: const Icon(
                           Icons.lock_outlined,
-                          color: pink,
+                          color: Colors.white,
                         ),
                         hintText: 'Password',
                         border: InputBorder.none),
@@ -163,7 +163,7 @@ class _BodyLoginState extends State<BodyLogin> {
       String email, String password, BuildContext context) async {
     String email = emailControll.value.text;
     String password = passwordControll.value.text;
-    var response = await repoUser.LoginRepo(
+    var response = await repoUser.loginRepo(
       email,
       password,
     );
@@ -173,8 +173,11 @@ class _BodyLoginState extends State<BodyLogin> {
       logger.d("Success Login");
       try {
         logger.d(response.token.toString());
-        // writeSecureData('token', response.token!);
-        sharedPrefendSetToken(response.token!);
+        prefSetToken(response.token!);
+        prefSetId(response.data!.id);
+
+        print('token = ' + response.token!);
+        print('idUser= ' + response.data!.id.toString());
 
         await Navigator.push(
           context,

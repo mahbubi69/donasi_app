@@ -32,7 +32,6 @@ class _DetailProfileScreenState extends State<DetailProfileScreen> {
                           builder: (context) => const EditProfileScreen()));
                 },
               )),
-
           // IconButton(
           //   icon: const Icon(Icons.edit),
           //   tooltip: 'Show Snackbar',

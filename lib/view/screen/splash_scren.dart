@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'package:donasi_app/colors/colors.dart';
 import 'package:donasi_app/view/screen/login_screen.dart';
+import 'package:donasi_app/view/widget/navigation/navigation_bar_style.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-// import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+// import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
@@ -13,15 +15,11 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  String? token = '';
   @override
   void initState() {
     super.initState();
-    Timer(
-        const Duration(seconds: 2),
-        () => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const LoginScreen()),
-            ));
+    chekToken();
   }
 
   @override
@@ -93,5 +91,27 @@ class _SplashScreenState extends State<SplashScreen> {
         // CircularProgressIndicator(),
       ),
     );
+  }
+
+  Future<void> chekToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    var prefToken = prefs.getString('Token');
+    token = prefToken;
+    if (token == null) {
+      Timer(
+          const Duration(seconds: 2),
+          () => Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginScreen()),
+              ));
+    } else {
+      Timer(
+          const Duration(seconds: 2),
+          () => Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const NavigationBarStyle()),
+              ));
+    }
   }
 }

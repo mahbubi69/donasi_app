@@ -22,7 +22,7 @@ class TextFieldStyleProfile extends StatelessWidget {
             hintText: hintText,
             hintStyle: const TextStyle(
               letterSpacing: 2,
-              color: pink,
+              color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
             fillColor: kprimary,

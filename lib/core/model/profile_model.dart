@@ -1,38 +1,7 @@
 import 'dart:convert';
 
-ResponseProfileUser responseProfileUseerFromJson(String str) =>
-    ResponseProfileUser.fromJson(json.decode(str));
-
-String responseProfileUseerToJson(ResponseProfileUser data) =>
-    json.encode(data.toJson());
-
-class ResponseProfileUser {
-  ResponseProfileUser({
-    required this.data,
-    required this.message,
-    required this.status,
-  });
-
-  Data data;
-  String message;
-  int status;
-
-  factory ResponseProfileUser.fromJson(Map<String, dynamic> json) =>
-      ResponseProfileUser(
-        data: Data.fromJson(json["data"]),
-        message: json["message"],
-        status: json["status"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "data": data.toJson(),
-        "message": message,
-        "status": status,
-      };
-}
-
-class Data {
-  Data({
+class Profile {
+  Profile({
     required this.id,
     required this.name,
     required this.email,
@@ -56,7 +25,7 @@ class Data {
   DateTime tglLahir;
   String noHp;
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory Profile.fromJson(Map<String, dynamic> json) => Profile(
         id: json["id"],
         name: json["name"],
         email: json["email"],

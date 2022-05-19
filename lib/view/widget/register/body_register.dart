@@ -20,6 +20,7 @@ class _BodyRegisterState extends State<BodyRegister> {
       email = '',
       password = '',
       role = '',
+      image = '',
       alamat = '',
       jenisKelamin = '',
       tanggalLahir = '',
@@ -35,8 +36,6 @@ class _BodyRegisterState extends State<BodyRegister> {
 
   final Repository repository = Repository();
   var logger = Logger();
-  String jenisKlamin = '';
-
   @override
   void initState() {
     super.initState();
@@ -100,17 +99,18 @@ class _BodyRegisterState extends State<BodyRegister> {
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   width: size.width * 0.8,
                   decoration: BoxDecoration(
-                      color: kprimary, borderRadius: BorderRadius.circular(20)),
+                      color: pink, borderRadius: BorderRadius.circular(20)),
                   child: TextFormField(
                     controller: emailControll,
                     validator: (value) =>
                         GetUtils.isEmail(value!) ? null : 'Harus Email',
                     // onChanged: onChanged,
                     decoration: const InputDecoration(
-                      hintText: 'Email',
-                      hintStyle: TextStyle(fontSize: 17.0, color: Colors.white),
-                      border: InputBorder.none,
-                    ),
+                        hintText: 'Email',
+                        hintStyle:
+                            TextStyle(fontSize: 17.0, color: Colors.white),
+                        border: InputBorder.none,
+                        fillColor: pink),
                   ),
                 ),
                 SizedBox(
@@ -226,8 +226,8 @@ class _BodyRegisterState extends State<BodyRegister> {
                       color: pink,
                       onPressed: () {
                         setState(() {
-                          registerSubmit(nama, email, password, role, alamat,
-                              jenisKelamin, tanggalLahir, noHp, context);
+                          registerSubmit(nama, email, password, role, image,
+                              alamat, jenisKelamin, tanggalLahir, noHp, context);
                         });
                       },
                       child: const Text(
@@ -259,6 +259,7 @@ class _BodyRegisterState extends State<BodyRegister> {
     final String email,
     final String password,
     final String role,
+    final String image,
     final String alamat,
     final String jenisKelamin,
     final String tanggalLahir,
@@ -271,14 +272,16 @@ class _BodyRegisterState extends State<BodyRegister> {
     String role = '2';
     String alamat = alamatControll.value.text;
     String jenisKelamin = jenisKelaminControll.value.text;
+    // String jenisKelamin = 'L';
     String tanggalLahir = tanggalLahirControll.value.text;
     String nomorHp = nomorHpControll.value.text;
 
-    var reponse = await repository.RegisterRepo(
+    var reponse = await repository.registerRepo(
       nama,
       email,
       password,
       role,
+      image,
       alamat,
       jenisKelamin,
       tanggalLahir,

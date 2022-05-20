@@ -1,33 +1,31 @@
-import 'dart:convert';
-
-class Program {
-  Program({
+class Donasi {
+  Donasi({
     required this.id,
-    required this.banner,
-    required this.title,
-    required this.story,
-    required this.incomingDonation,
+    required this.dateDonation,
+    required this.buktiDonation,
+    required this.programId,
+    required this.userId,
   });
 
-  int id;
-  String banner;
-  String title;
-  String story;
-  String incomingDonation;
+  final int id;
+  final DateTime dateDonation;
+  final String buktiDonation;
+  final int programId;
+  final int userId;
 
-  factory Program.fromJson(Map<String, dynamic> json) => Program(
+  factory Donasi.fromJson(Map<String, dynamic> json) => Donasi(
         id: json["id"],
-        banner: json["banner"],
-        title: json["title"],
-        story: json["Story"],
-        incomingDonation: json["IncomingDonation"],
+        dateDonation: DateTime.parse(json["date_donation"]),
+        buktiDonation: json["bukti_donation"],
+        programId: json["program_id"],
+        userId: json["user_id"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "banner": banner,
-        "title": title,
-        "Story": story,
-        "IncomingDonation": incomingDonation,
+        "date_donation": dateDonation.toIso8601String(),
+        "bukti_donation": buktiDonation,
+        "program_id": programId,
+        "user_id": userId,
       };
 }

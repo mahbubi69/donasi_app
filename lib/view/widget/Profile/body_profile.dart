@@ -1,19 +1,18 @@
 import 'dart:io';
 
-import 'package:donasi_app/core/model/profile_model.dart';
+import 'package:donasi_app/colors/colors.dart';
 import 'package:donasi_app/core/repository/repository.dart';
 import 'package:donasi_app/core/response/resp_profile_user.dart';
 import 'package:donasi_app/core/utils/value.dart';
+import 'package:donasi_app/view/screen/edit_profile_screen.dart';
 import 'package:donasi_app/view/screen/login_screen.dart';
+import 'package:donasi_app/view/screen/setting_screen.dart';
+import 'package:donasi_app/view/widget/Profile/body_detail_profile.dart';
 import 'package:donasi_app/view/widget/Profile/profile_menu_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../../colors/colors.dart';
-import '../../screen/detail_pofile_screen.dart';
-import '../../screen/setting_screen.dart';
 
 class BodyPofile extends StatefulWidget {
   const BodyPofile({Key? key}) : super(key: key);
@@ -40,7 +39,6 @@ class _BodyPofileState extends State<BodyPofile> {
   var getProfileId;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getProfileId = getProfile();
   }
@@ -71,17 +69,6 @@ class _BodyPofileState extends State<BodyPofile> {
                       backgroundColor: Colors.white,
                       backgroundImage:
                           NetworkImage(BASE_URL + profile!.data.image),
-                      // child: ClipRect(
-                      //   child: imageFile != null
-                      //       ? Image.file(
-                      //           imageFile!,
-                      //           fit: BoxFit.cover,
-                      //         )
-                      //       : Image.asset(
-                      //           'assets/images/icon_user.png',
-                      //           fit: BoxFit.cover,
-                      //         ),
-                      // ),
                     ),
                     Positioned(
                       right: -16,
@@ -108,8 +95,6 @@ class _BodyPofileState extends State<BodyPofile> {
                 style: TextStyle(fontSize: 20, color: pink),
               ),
               const SizedBox(height: 5),
-              // Text(profile.data.email,
-              //     style: TextStyle(fontSize: 16, color: Colors.black)),
               const SizedBox(height: 45),
               ProfileMenuStyle(
                 text: 'My Account',
@@ -117,7 +102,21 @@ class _BodyPofileState extends State<BodyPofile> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const DetailProfileScreen()));
+                          builder: (context) => DetailProfile(
+                              nama: profile.data.name,
+                              alamat: profile.data.alamat,
+                              tglLahir: profile.data.tglLahir.toString(),
+                              noHp: profile.data.noHp,
+                              onpres: () {
+                                setState(() async {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const EditProfileScreen()));
+                                });
+                              },
+                              image: BASE_URL + profile.data.image)));
                 },
                 icon: 'assets/svg/ic_user.svg',
               ),

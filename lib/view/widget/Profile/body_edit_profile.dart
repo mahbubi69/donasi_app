@@ -1,4 +1,8 @@
+import 'dart:async';
+import 'package:donasi_app/core/repository/repository.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../colors/colors.dart';
 
@@ -10,6 +14,31 @@ class BodyEditProfile extends StatefulWidget {
 }
 
 class _BodyEditProfileState extends State<BodyEditProfile> {
+  String nama = '',
+      alamat = '',
+      tanggalLahir = '',
+      noHp = '',
+      id = '',
+      token = '';
+
+  TextEditingController namaControll = TextEditingController();
+  TextEditingController alamatControll = TextEditingController();
+  TextEditingController tglLahirControll = TextEditingController();
+  TextEditingController nohpaControll = TextEditingController();
+  var logger = Logger();
+
+  Repository repository = Repository();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    namaControll = TextEditingController();
+    alamatControll = TextEditingController();
+    tglLahirControll = TextEditingController();
+    nohpaControll = TextEditingController();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -18,41 +47,41 @@ class _BodyEditProfileState extends State<BodyEditProfile> {
       padding: const EdgeInsets.all(15),
       child: Column(
         children: <Widget>[
-          const Padding(
+          Padding(
             padding: EdgeInsets.all(15),
             child: TextField(
-              // controller: controllerName,
-              decoration: InputDecoration(
+              controller: namaControll,
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'Nama',
               ),
             ),
           ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.all(15),
             child: TextField(
-              // controller: controllerName,
-              decoration: InputDecoration(
+              controller: alamatControll,
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'Alamat',
               ),
             ),
           ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.all(15),
             child: TextField(
-              // controller: controllerName,
-              decoration: InputDecoration(
+              controller: tglLahirControll,
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'Tgl Lahir',
               ),
             ),
           ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.all(15),
             child: TextField(
-              // controller: controllerName,
-              decoration: InputDecoration(
+              controller: nohpaControll,
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'No_Hp',
               ),
@@ -70,8 +99,8 @@ class _BodyEditProfileState extends State<BodyEditProfile> {
                 onPressed: () {
                   setState(
                     () {
-                      // showErrorDialog('error', 'cek anda');
-                      // loginSubmit(email, password, context);
+                      editProfileSubmit(
+                          nama, alamat, tanggalLahir, noHp, id, token, context);
                     },
                   );
                 },
@@ -85,5 +114,61 @@ class _BodyEditProfileState extends State<BodyEditProfile> {
         ],
       ),
     ));
+  }
+
+  Future<void> editProfileSubmit(
+    String nama,
+    alamat,
+    tglLahir,
+    noHp,
+    id,
+    token,
+    BuildContext context,
+  ) async {
+    final prefs = await SharedPreferences.getInstance();
+    var prefid = prefs.getInt('Id');
+    var prefToken = prefs.getString('Token');
+
+    String idUser = prefid.toString();
+    String? tokenUser = prefToken;
+
+    nama = namaControll.value.text;
+    alamat = alamatControll.value.text;
+    tglLahir = tglLahirControll.value.text;
+    noHp = nohpaControll.value.text;
+    id = idUser;
+    token = tokenUser!;
+
+    var response = await repository.editProfilerepo(
+        nama, alamat, tglLahir, noHp, id, token);
+    // logger.d(response.status);
+    if (response.status == 200) {
+      logger.d('berhasil register');
+      try {
+        // logger.d(response.message);
+        // Timer(const Duration(seconds: 2), () => Navigator.pop(context));
+        showErrorDialog('berhasil', response.message);
+      } catch (e) {
+        print(e);
+      }
+    } else {
+      showErrorDialog('Error', response.message);
+    }
+  }
+
+  Future<void> showErrorDialog(String title, String message) {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Ok'),
+          ),
+        ],
+      ),
+    );
   }
 }

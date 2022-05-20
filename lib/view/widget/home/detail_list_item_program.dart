@@ -1,19 +1,26 @@
 import 'package:donasi_app/colors/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
 
-class DetailListItemProgram extends StatefulWidget {
-  const DetailListItemProgram({Key? key}) : super(key: key);
+class DetailListItemProgram extends StatelessWidget {
+  final String images, deskripsi;
+  // final BuildContext context;
+  // namaPanti, noHp;
+  const DetailListItemProgram({
+    Key? key,
+    required this.images,
+    required this.deskripsi,
+    // required this.context,
+    // required this.namaPanti,
+    // required this.noHp,
+  }) : super(key: key);
 
-  @override
-  State<DetailListItemProgram> createState() => DetailListItemProgramState();
-}
-
-class DetailListItemProgramState extends State<DetailListItemProgram> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        backgroundColor: kprimary,
+        backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: pink,
           title: const Text('Deskripsi'),
@@ -22,13 +29,16 @@ class DetailListItemProgramState extends State<DetailListItemProgram> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
+              SizedBox(
+                height: size.height * 0.01,
+              ),
               Container(
                 height: 250.0,
                 child: Hero(
                   tag: 'photo panti',
                   child: InkWell(
-                    child: Image.asset(
-                      'assets/images/panti_asuhan_1.jpg',
+                    child: Image.network(
+                      images,
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -54,16 +64,16 @@ class DetailListItemProgramState extends State<DetailListItemProgram> {
                       ],
                     ),
                   ]),
-
+              //deskripsi
               Container(
                 padding: const EdgeInsets.all(5.0),
-                child: const Card(
+                child: Card(
                   color: kprimary,
                   child: Padding(
-                    padding: EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.all(10.0),
                     child: Text(
-                      'Panti Asuhan Yarhima terletak di daerah Bondowoso Jl. Saliwiryo Pranowo, Pattian, Kotakulon, Kec. Bondowoso, Kab. Bondowoso, Jawa Timur Panti Asuhan Yarhima terletak di daerah Bondowoso Jl. Saliwiryo Pranowo, Pattian, Kotakulon, Kec. Bondowoso, Kab. Bondowoso, Jawa Timur Panti Asuhan Yarhima terletak di daerah Bondowoso Jl. Saliwiryo Pranowo, Pattian, Kotakulon, Kec. Bondowoso, Kab. Bondowoso, Jawa Timur',
-                      style: TextStyle(
+                      deskripsi,
+                      style: const TextStyle(
                         color: Colors.black,
                         fontSize: 16.0,
                       ),
@@ -71,18 +81,6 @@ class DetailListItemProgramState extends State<DetailListItemProgram> {
                   ),
                 ),
               ),
-              //nama dan lokasi panti
-              // SizedBox(
-              //   height: size.height * 0.03,
-              // ),
-              // Container(
-              //   padding: const EdgeInsets.all(15.0),
-              //   child: Column(
-              //     children: <Widget>[],
-              //   ),
-              // ),
-              // // deskripsi
-
               //nomor hp dan rekening
               Container(
                 padding: const EdgeInsets.all(15.0),
@@ -168,12 +166,7 @@ class DetailListItemProgramState extends State<DetailListItemProgram> {
                     padding: const EdgeInsets.symmetric(
                         vertical: 20, horizontal: 10),
                     color: pink,
-                    onPressed: () {
-                      setState(() {
-                        // showErrorDialog('error', 'cek anda');
-                        // loginSubmit(email, password, context);
-                      });
-                    },
+                    onPressed: () {},
                     child: const Text(
                       'Donasi',
                       style: TextStyle(color: Colors.white, fontSize: 20),

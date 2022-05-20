@@ -1,29 +1,26 @@
+import 'package:donasi_app/core/model/model_donasi.dart';
 import 'dart:convert';
 
-import '../model/model_donasi.dart';
+ResponseDonasi responseFromJson(String str) =>
+    ResponseDonasi.fromJson(json.decode(str));
 
-ResponseProgram responseProgramFromJson(String str) =>
-    ResponseProgram.fromJson(json.decode(str));
+String responseToJson(ResponseDonasi data) => json.encode(data.toJson());
 
-String responseProgramToJson(ResponseProgram data) =>
-    json.encode(data.toJson());
-
-class ResponseProgram {
-  ResponseProgram({
+class ResponseDonasi {
+  ResponseDonasi({
     required this.data,
     required this.message,
     required this.rowCount,
     required this.status,
   });
 
-  List<Program> data;
-  String message;
-  int rowCount;
-  int status;
+  final List<Donasi> data;
+  final String message;
+  final int rowCount;
+  final int status;
 
-  factory ResponseProgram.fromJson(Map<String, dynamic> json) =>
-      ResponseProgram(
-        data: List<Program>.from(json["data"].map((x) => Program.fromJson(x))),
+  factory ResponseDonasi.fromJson(Map<String, dynamic> json) => ResponseDonasi(
+        data: List<Donasi>.from(json["data"].map((x) => Donasi.fromJson(x))),
         message: json["message"],
         rowCount: json["rowCount"],
         status: json["status"],

@@ -1,10 +1,9 @@
 import 'dart:async';
+import 'package:donasi_app/colors/colors.dart';
 import 'package:donasi_app/core/repository/repository.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../../colors/colors.dart';
 
 class BodyEditProfile extends StatefulWidget {
   const BodyEditProfile({Key? key}) : super(key: key);
@@ -48,7 +47,7 @@ class _BodyEditProfileState extends State<BodyEditProfile> {
       child: Column(
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.all(15),
+            padding: const EdgeInsets.all(15),
             child: TextField(
               controller: namaControll,
               decoration: const InputDecoration(
@@ -68,17 +67,17 @@ class _BodyEditProfileState extends State<BodyEditProfile> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(15),
+            padding: const EdgeInsets.all(15),
             child: TextField(
               controller: tglLahirControll,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: 'Tgl Lahir',
+                hintText: 'tanggal',
               ),
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(15),
+            padding: const EdgeInsets.all(15),
             child: TextField(
               controller: nohpaControll,
               decoration: const InputDecoration(
@@ -95,7 +94,7 @@ class _BodyEditProfileState extends State<BodyEditProfile> {
               child: FlatButton(
                 padding:
                     const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                color: pink,
+                color: amber,
                 onPressed: () {
                   setState(
                     () {
@@ -156,7 +155,7 @@ class _BodyEditProfileState extends State<BodyEditProfile> {
     }
   }
 
-  Future<void> showErrorDialog(String title, String message) {
+  Future<void> showErrorDialog(String title, message) {
     return showDialog(
       context: context,
       builder: (context) => AlertDialog(

@@ -5,7 +5,7 @@ class HeaderBoxProfile extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     // TODO: implement paint
-    Paint paint = Paint()..color = pink;
+    Paint paint = Paint()..color = amber;
     Path path = Path()
       ..relativeLineTo(0, 150)
       ..quadraticBezierTo(size.width / 2, 225, size.width, 150)

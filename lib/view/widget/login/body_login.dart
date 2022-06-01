@@ -16,12 +16,13 @@ class BodyLogin extends StatefulWidget {
 }
 
 class _BodyLoginState extends State<BodyLogin> {
-  String email = "", password = "";
+  String email = '', password = '';
   var logger = Logger();
   TextEditingController emailControll = TextEditingController();
   TextEditingController passwordControll = TextEditingController();
   final Repository repoUser = Repository();
   bool isObscure = true;
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -30,137 +31,155 @@ class _BodyLoginState extends State<BodyLogin> {
     passwordControll = TextEditingController();
   }
 
+  GlobalKey<FormState> fromKey = GlobalKey();
+  bool shouldPop = true;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return SizedBox(
-      height: size.height,
-      width: double.infinity,
-      child: Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text(
-                  'Login',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 35,
-                      color: pink,
-                      height: 1),
-                ),
-                Image.asset(
-                  'assets/icons/bg_register.png',
-                  height: size.height * 0.40,
-                ),
-                SizedBox(
-                  height: size.height * 0.01,
-                ),
-                //input email
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 10),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                  width: size.width * 0.8,
-                  decoration: BoxDecoration(
-                      color: kprimary, borderRadius: BorderRadius.circular(20)),
-                  child: TextFormField(
-                    controller: emailControll,
-                    // validator: (value) =>
-                    //     value!.contains('@') ? 'masukkan email' : null,
-                    // onChanged: onChanged,
-                    decoration: const InputDecoration(
-                      icon: Icon(
-                        Icons.email,
-                        color: Colors.white,
-                      ),
-                      hintText: 'Email',
-                      border: InputBorder.none,
-                    ),
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pop(context);
+        return false;
+      },
+      child: SizedBox(
+        height: size.height,
+        width: double.infinity,
+        child: Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            SingleChildScrollView(
+                child: Form(
+              key: fromKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text(
+                    'Login',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 35,
+                        color: amber,
+                        height: 1),
                   ),
-                ),
-                //input password
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 10),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                  width: size.width * 0.8,
-                  decoration: BoxDecoration(
-                      color: kprimary, borderRadius: BorderRadius.circular(20)),
-                  child: TextField(
-                    obscureText: isObscure,
-                    controller: passwordControll,
-                    // onChanged: onChanged,
-                    decoration: InputDecoration(
-                        suffixIcon: IconButton(
-                          icon: Icon(isObscure
-                              ? Icons.visibility
-                              : Icons.visibility_off),
-                          color: pink,
-                          onPressed: () {
-                            setState(() {
-                              isObscure = !isObscure;
-                            });
-                          },
-                        ),
-                        icon: const Icon(
-                          Icons.lock_outlined,
-                          color: Colors.white,
-                        ),
-                        hintText: 'Password',
-                        border: InputBorder.none),
+                  Image.asset(
+                    'assets/icons/bg_login.png',
+                    height: size.height * 0.40,
                   ),
-                ),
-                //button
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 10),
-                  width: size.width * 0.8,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: FlatButton(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 20, horizontal: 10),
-                      color: pink,
-                      onPressed: () {
-                        setState(
-                          () {
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) =>
-                            //             const NavigationBarStyle()));
-                            loginSubmit(email, password, context);
-                          },
-                        );
+                  SizedBox(
+                    height: size.height * 0.01,
+                  ),
+                  //input email
+                  Container(
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    width: size.width * 0.8,
+                    decoration: BoxDecoration(
+                        color: primaryAmber,
+                        borderRadius: BorderRadius.circular(20)),
+                    child: TextFormField(
+                      controller: emailControll,
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'masukkan emailmu';
+                        }
+                        return null;
                       },
-                      child: const Text(
-                        'Login',
-                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      onSaved: (value) => email = value!,
+                      decoration: const InputDecoration(
+                        icon: Icon(
+                          Icons.email,
+                          color: amber,
+                        ),
+                        hintText: 'Email',
+                        border: InputBorder.none,
                       ),
                     ),
                   ),
-                ),
-                // chek akun
-                AllReadyAccountChek(
-                  press: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const RegisterScreen()));
-                  },
-                )
-              ],
-            ),
-          )
-        ],
+                  //input password
+                  Container(
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    width: size.width * 0.8,
+                    decoration: BoxDecoration(
+                        color: primaryAmber,
+                        borderRadius: BorderRadius.circular(20)),
+                    child: TextFormField(
+                      obscureText: isObscure,
+                      controller: passwordControll,
+                      validator: (value) => value == null || value.isEmpty
+                          ? "Masukkan passwordmu"
+                          : null,
+                      onSaved: (value) => password = value!,
+                      // onChanged: onChanged,
+                      decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                            icon: Icon(isObscure
+                                ? Icons.visibility
+                                : Icons.visibility_off),
+                            color: amber,
+                            onPressed: () {
+                              setState(() {
+                                isObscure = !isObscure;
+                              });
+                            },
+                          ),
+                          icon: const Icon(
+                            Icons.lock_outlined,
+                            color: amber,
+                          ),
+                          hintText: 'Password',
+                          border: InputBorder.none),
+                    ),
+                  ),
+                  //button
+                  Container(
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    width: size.width * 0.8,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: FlatButton(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 20, horizontal: 10),
+                        color: amber,
+                        onPressed: () {
+                          fromKey.currentState!.validate();
+                          setState(() {
+                            loginSubmit(email, password, context);
+                          });
+                        },
+                        child: const Text(
+                          'Login',
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                      ),
+                    ),
+                  ),
+                  // chek akun
+                  AllReadyAccountChek(
+                    press: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const RegisterScreen()));
+                    },
+                  )
+                ],
+              ),
+            ))
+          ],
+        ),
       ),
     );
   }
 
   Future<void> loginSubmit(
-      String email, String password, BuildContext context) async {
+    String email,
+    password,
+    BuildContext context,
+  ) async {
     String email = emailControll.value.text;
     String password = passwordControll.value.text;
     var response = await repoUser.loginRepo(
@@ -177,7 +196,7 @@ class _BodyLoginState extends State<BodyLogin> {
         prefSetId(response.data!.id);
 
         print('token = ' + response.token!);
-        print('idUser= ' + response.data!.id.toString());
+        print('idUser = ' + response.data!.id.toString());
 
         await Navigator.push(
           context,

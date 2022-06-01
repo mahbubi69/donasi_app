@@ -4,24 +4,25 @@ import 'package:donasi_app/view/widget/Profile/text_field_style_profile.dart';
 import 'package:flutter/material.dart';
 
 class DetailProfile extends StatelessWidget {
-  final String nama, alamat, tglLahir, noHp, image;
-  final VoidCallback onpres;
-  const DetailProfile(
-      {Key? key,
-      required this.nama,
-      required this.alamat,
-      required this.tglLahir,
-      required this.noHp,
-      required this.image,
-      required this.onpres})
-      : super(key: key);
+  final String nama, alamat, tglLahir, noHp;
+  ImageProvider image;
+  VoidCallback onpres;
+  DetailProfile({
+    Key? key,
+    required this.nama,
+    required this.alamat,
+    required this.tglLahir,
+    required this.noHp,
+    required this.image,
+    required this.onpres,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: pink,
+        backgroundColor: amber,
         actions: <Widget>[
           Container(
               padding: const EdgeInsets.all(15),
@@ -30,9 +31,7 @@ class DetailProfile extends StatelessWidget {
                   'Ubah',
                   style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
-                onTap: () {
-                  onpres;
-                },
+                onTap: onpres,
               )),
         ],
       ),
@@ -49,12 +48,22 @@ class DetailProfile extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    TextFieldStyleProfile(
+                    ButtonFieldStyleProfile(
                       hintText: nama,
+                      press: () {},
                     ),
-                    TextFieldStyleProfile(hintText: alamat),
-                    TextFieldStyleProfile(hintText: tglLahir),
-                    TextFieldStyleProfile(hintText: noHp),
+                    ButtonFieldStyleProfile(
+                      hintText: alamat,
+                      press: () {},
+                    ),
+                    ButtonFieldStyleProfile(
+                      hintText: tglLahir,
+                      press: () {},
+                    ),
+                    ButtonFieldStyleProfile(
+                      hintText: noHp,
+                      press: () {},
+                    ),
                   ],
                 ),
               ),
@@ -88,7 +97,7 @@ class DetailProfile extends StatelessWidget {
                   color: Colors.white,
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: NetworkImage(image),
+                    image: image,
                   ),
                 ),
               )

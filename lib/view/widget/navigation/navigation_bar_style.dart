@@ -34,11 +34,11 @@ class _NavigationBarStyleState extends State<NavigationBarStyle> {
               child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(25)),
                 child: BottomNavigationBar(
-                  selectedItemColor: pink,
-                  unselectedItemColor: Colors.grey,
+                  selectedItemColor: kTextColor,
+                  unselectedItemColor: Colors.black54,
                   showSelectedLabels: true,
                   showUnselectedLabels: false,
-                  backgroundColor: kprimary,
+                  backgroundColor: amber,
                   currentIndex: layoutPage,
                   onTap: (int index) {
                     setState(() {
@@ -51,8 +51,9 @@ class _NavigationBarStyleState extends State<NavigationBarStyle> {
                       label: 'Home',
                     ),
                     BottomNavigationBarItem(
-                        icon: Icon(Icons.notifications_outlined),
-                        label: 'Notif'),
+                      icon: Icon(Icons.list_alt_outlined),
+                      label: 'Report',
+                    ),
                     BottomNavigationBarItem(
                       icon: Icon(Icons.person_outline),
                       label: 'Profile',

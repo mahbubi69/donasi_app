@@ -1,7 +1,7 @@
-import 'dart:io';
-
 import 'package:donasi_app/colors/colors.dart';
 import 'package:donasi_app/core/repository/repository.dart';
+import 'dart:io';
+
 import 'package:donasi_app/core/response/resp_profile_user.dart';
 import 'package:donasi_app/core/utils/value.dart';
 import 'package:donasi_app/view/screen/edit_profile_screen.dart';
@@ -12,6 +12,7 @@ import 'package:donasi_app/view/widget/Profile/profile_menu_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BodyPofile extends StatefulWidget {
@@ -22,21 +23,12 @@ class BodyPofile extends StatefulWidget {
 }
 
 class _BodyPofileState extends State<BodyPofile> {
-  final Repository repositoryGetUser = Repository();
+  final Repository repositoryUser = Repository();
   File? imageFile;
 
-  Future<ResponseProfileUser> getProfile() async {
-    final prefs = await SharedPreferences.getInstance();
-    var prefid = prefs.getInt('Id');
-    var prefToken = prefs.getString('Token');
-
-    int? id = prefid;
-    String? token = prefToken;
-    var repoGetUser = repositoryGetUser.getProfileRepo(id!, token!);
-    return repoGetUser;
-  }
-
   var getProfileId;
+  var uploadImage;
+  var logger = Logger();
   @override
   void initState() {
     super.initState();
@@ -65,10 +57,27 @@ class _BodyPofileState extends State<BodyPofile> {
                   clipBehavior: Clip.none,
                   //  CircleAvatar(
                   children: [
-                    CircleAvatar(
-                      backgroundColor: Colors.white,
-                      backgroundImage:
-                          NetworkImage(BASE_URL + profile!.data.image),
+                    Container(
+                      // margin:
+                      //     EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                      child: CircleAvatar(
+                        radius: 71,
+                        backgroundColor: kTextColor,
+                        child: CircleAvatar(
+                          radius: 65,
+                          backgroundColor: kTextColor,
+                          backgroundImage:
+                              // NetworkImage(BASE_URL + profile!.data.image),
+                              imageFile == null
+                                  ? profile?.data.image.isEmpty ?? true
+                                      ? const AssetImage(
+                                              'assets/icons/icon_user.png')
+                                          as ImageProvider
+                                      : NetworkImage(
+                                          BASE_URL + profile!.data.image)
+                                  : FileImage(imageFile!),
+                        ),
+                      ),
                     ),
                     Positioned(
                       right: -16,
@@ -77,11 +86,11 @@ class _BodyPofileState extends State<BodyPofile> {
                         height: 46,
                         width: 46,
                         child: FloatingActionButton(
-                          backgroundColor: Colors.green,
+                          backgroundColor: amber,
                           onPressed: () => chooseImage(context),
                           child: SvgPicture.asset(
                             'assets/svg/ic_camera.svg',
-                            color: pink,
+                            color: kTextColor,
                           ),
                         ),
                       ),
@@ -91,8 +100,8 @@ class _BodyPofileState extends State<BodyPofile> {
               ),
               const SizedBox(height: 10),
               Text(
-                profile.data.email,
-                style: TextStyle(fontSize: 20, color: pink),
+                profile!.data.email,
+                style: const TextStyle(fontSize: 20, color: Colors.black54),
               ),
               const SizedBox(height: 5),
               const SizedBox(height: 45),
@@ -105,18 +114,21 @@ class _BodyPofileState extends State<BodyPofile> {
                           builder: (context) => DetailProfile(
                               nama: profile.data.name,
                               alamat: profile.data.alamat,
-                              tglLahir: profile.data.tglLahir.toString(),
+                              tglLahir: profile.data.tglLahir,
                               noHp: profile.data.noHp,
                               onpres: () {
-                                setState(() async {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const EditProfileScreen()));
-                                });
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const EditProfileScreen()));
                               },
-                              image: BASE_URL + profile.data.image)));
+                              image: profile?.data.image.isEmpty ?? true
+                                  ? const AssetImage(
+                                          'assets/icons/icon_user.png')
+                                      as ImageProvider
+                                  : NetworkImage(
+                                      BASE_URL + profile.data.image))));
                 },
                 icon: 'assets/svg/ic_user.svg',
               ),
@@ -132,15 +144,7 @@ class _BodyPofileState extends State<BodyPofile> {
               ProfileMenuStyle(
                 text: 'Log Out',
                 press: () {
-                  setState(() async {
-                    final prefs = await SharedPreferences.getInstance();
-                    final removeToken = await prefs.remove('Token');
-                    final removeId = await prefs.remove('Id');
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const LoginScreen()));
-                  });
+                  showLogoutDialog('Logout', 'Apakah anda yakin mau keluar');
                 },
                 icon: 'assets/svg/ic_logout.svg',
               ),
@@ -208,7 +212,9 @@ class _BodyPofileState extends State<BodyPofile> {
                         ),
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          deletImgProfileSubmit();
+                        },
                         child: Padding(
                           padding: const EdgeInsets.all(20.0),
                           child: Row(children: const [
@@ -217,11 +223,124 @@ class _BodyPofileState extends State<BodyPofile> {
                             Text("Hapus", style: TextStyle(fontSize: 16))
                           ]),
                         ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          // uploadImageSubmit(imageFile!, context);
+                          imageFile == null
+                              ? messageImage(
+                                  'Error', "file tidak ada yang dipilih")
+                              : uploadImageSubmit(imageFile!);
+                          // uploadImageSubmit(imageFile!);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Row(children: const [
+                            Icon(Icons.upload_file_outlined,
+                                size: 24, color: Colors.black),
+                            SizedBox(width: 16),
+                            Text("save imge", style: TextStyle(fontSize: 16))
+                          ]),
+                        ),
                       )
                     ],
                   ),
                 ),
               ),
             ));
+  }
+
+//dialog logout
+  Future<void> showLogoutDialog(String title, String message) {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () async {
+              final prefs = await SharedPreferences.getInstance();
+              final removeToken = await prefs.remove('Token');
+              final removeId = await prefs.remove('Id');
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()));
+            },
+            child: const Text('Ok'),
+          ),
+          TextButton(
+            onPressed: () async {
+              Navigator.pop(context);
+            },
+            child: const Text('tidak'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  //delet img profile submit
+  Future<void> deletImgProfileSubmit() async {
+    final prefs = await SharedPreferences.getInstance();
+    var prefid = prefs.getInt('Id');
+    var prefToken = prefs.getString('Token');
+    int? id = prefid;
+    String? token = prefToken;
+    var response = await repositoryUser.deletImgProfileRepo(token!, id);
+    if (response.status == 200) {
+      messageImage('Berhasil', response.message);
+    } else {
+      messageImage('Error', response.message);
+    }
+  }
+
+  //upload image submit
+  Future<void> uploadImageSubmit(File imageFiles) async {
+    final prefs = await SharedPreferences.getInstance();
+    var prefid = prefs.getInt('Id');
+    var prefToken = prefs.getString('Token');
+    int? id = prefid;
+    String? token = prefToken;
+
+    var response =
+        await repositoryUser.editImageProfileRepo(token!, id, imageFiles);
+    if (response.status == 200) {
+      logger.d(response.token!.toString());
+      try {
+        messageImage('Berhasil', response.message);
+      } catch (e) {
+        print(e);
+      }
+    } else {
+      messageImage('Error', response.message);
+    }
+  }
+
+//fun in get profile
+  Future<ResponseProfileUser> getProfile() async {
+    final prefs = await SharedPreferences.getInstance();
+    var prefid = prefs.getInt('Id');
+    var prefToken = prefs.getString('Token');
+
+    int? id = prefid;
+    String? token = prefToken;
+    var repoGetUser = repositoryUser.getProfileRepo(id!, token!);
+    return repoGetUser;
+  }
+
+  Future<void> messageImage(String title, message) {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Ok'),
+          ),
+        ],
+      ),
+    );
   }
 }

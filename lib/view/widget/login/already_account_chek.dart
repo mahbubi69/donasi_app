@@ -23,7 +23,7 @@ class AllReadyAccountChek extends StatelessWidget {
           onTap: press,
           child: Text(
             login ? "Daftar Akun?" : " Masuk?",
-            style: const TextStyle(color: pink, fontWeight: FontWeight.bold),
+            style: const TextStyle(color: amber, fontWeight: FontWeight.bold),
           ),
         )
       ],

@@ -1,7 +1,5 @@
-import 'dart:convert';
-
-class Profile {
-  Profile({
+class EditPassword {
+  EditPassword({
     required this.id,
     required this.name,
     required this.email,
@@ -14,24 +12,24 @@ class Profile {
     required this.noHp,
   });
 
-  int id;
-  String name;
-  String email;
-  String password;
-  String role;
-  String image;
-  String alamat;
-  String jenisKelamin;
-  String tglLahir;
-  String noHp;
+  final int id;
+  final String name;
+  final String email;
+  final String password;
+  final String role;
+  final String image;
+  final String alamat;
+  final String jenisKelamin;
+  final String tglLahir;
+  final String noHp;
 
-  factory Profile.fromJson(Map<String, dynamic> json) => Profile(
+  factory EditPassword.fromJson(Map<String, dynamic> json) => EditPassword(
         id: json["id"],
         name: json["name"],
         email: json["email"],
         password: json["password"],
         role: json["role"],
-        image: json["image"] == null ? null : json["image"],
+        image: json["image"],
         alamat: json["alamat"],
         jenisKelamin: json["jenis_kelamin"],
         tglLahir: json["tgl_lahir"],
@@ -44,7 +42,7 @@ class Profile {
         "email": email,
         "password": password,
         "role": role,
-        "image": image == null ? null : image,
+        "image": image,
         "alamat": alamat,
         "jenis_kelamin": jenisKelamin,
         "tgl_lahir": tglLahir,

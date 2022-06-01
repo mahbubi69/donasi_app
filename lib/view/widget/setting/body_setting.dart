@@ -1,46 +1,50 @@
+import 'package:donasi_app/view/widget/Profile/text_field_style_profile.dart';
+import 'package:donasi_app/view/widget/setting/ubah_pasword.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-class BodySetting extends StatelessWidget {
+class BodySetting extends StatefulWidget {
   const BodySetting({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            'Dark Mode',
-            style: Theme.of(context).textTheme.button,
-          ),
-          const SizedBox(
-            width: 50,
-          ),
-          RaisedButton(
-              child: Icon(Icons.brightness_6_outlined),
-              onPressed: () {
-                Get.isDarkMode
-                    ? Get.changeTheme(ThemeData.light())
-                    : Get.changeTheme(ThemeData.light());
-              }),
-          // FlutterSwitch(
-          //   width: 100,
-          //   height: 40.0,
-          //   valueFontSize: 18.0,
-          //   toggleSize: 45.0,
-          //   value: status,
-          //   borderRadius: 30.0,
-          //   padding: 8.0,
-          //   showOnOff: true,
-          //   onToggle: (val) {
-          //     setState(() {
-          //       status = val;
+  State<BodySetting> createState() => _BodySettingState();
+}
 
-          //     });
-          //   },
-          // ),
+class _BodySettingState extends State<BodySetting> {
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return SizedBox(
+      width: double.infinity,
+      child: Stack(
+        alignment: Alignment.center,
+        children: <Widget>[
+          SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  height: 450,
+                  width: double.infinity,
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ButtonFieldStyleProfile(
+                        hintText: 'ubah password',
+                        press: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const UbahEmailPassword()));
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );

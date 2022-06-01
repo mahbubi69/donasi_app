@@ -19,6 +19,12 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    // Timer(
+    //     const Duration(seconds: 2),
+    //     () => Navigator.pushReplacement(
+    //           context,
+    //           MaterialPageRoute(builder: (context) => const LoginScreen()),
+    //         ));
     chekToken();
   }
 
@@ -33,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
           gradient: LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomRight,
-            colors: [pink, pink],
+            colors: [kTextColor, kTextColor],
           ),
         ),
         child: Column(
@@ -46,6 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
               width: 300.0,
             ),
             //loading
+
             SizedBox(
               height: size.height * 0.06,
             ),
@@ -59,7 +66,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 percent: 0.9,
                 center: const Text("90.0%"),
                 linearStrokeCap: LinearStrokeCap.roundAll,
-                progressColor: kprimary,
+                progressColor: amber,
               ),
             ),
             SizedBox(
@@ -70,9 +77,7 @@ class _SplashScreenState extends State<SplashScreen> {
               'Salurkan donasi untuk membantu sesama',
               textAlign: TextAlign.center,
               style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18.0),
+                  color: amber, fontWeight: FontWeight.bold, fontSize: 18.0),
             ),
             SizedBox(
               height: size.height * 0.01,
@@ -82,9 +87,7 @@ class _SplashScreenState extends State<SplashScreen> {
               'vesion 1.0.0',
               textAlign: TextAlign.center,
               style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18.0),
+                  color: amber, fontWeight: FontWeight.bold, fontSize: 18.0),
             ),
           ],
         ),

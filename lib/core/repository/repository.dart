@@ -1,11 +1,18 @@
+import 'dart:io';
+
 import 'package:donasi_app/core/model/model_donasi.dart';
 import 'package:donasi_app/core/model/model_program.dart';
+import 'package:donasi_app/core/response/resp_add_image_profile.dart';
+import 'package:donasi_app/core/response/resp_delet_donasi.dart';
+import 'package:donasi_app/core/response/resp_delet_image_profile.dart';
 import 'package:donasi_app/core/response/resp_donasi.dart';
+import 'package:donasi_app/core/response/resp_edit_password.dart';
 import 'package:donasi_app/core/response/resp_program.dart';
 import 'package:donasi_app/core/response/resp_edit_profile.dart';
 import 'package:donasi_app/core/response/resp_profile_user.dart';
 import 'package:donasi_app/core/response/resp_register_user.dart';
 import 'package:donasi_app/core/response/resp_login_user.dart';
+import 'package:donasi_app/core/response/resp_report_donasi.dart';
 import 'package:donasi_app/core/service/service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -55,7 +62,7 @@ class Repository extends ServiceUser {
     return ResponseProfileUser.fromJson(map);
   }
 
-//get donasi
+//get program
   Future<List<Program>> getProgramRepo() async {
     final prefs = await SharedPreferences.getInstance();
     var prefToken = prefs.getString('Token');
@@ -81,8 +88,59 @@ class Repository extends ServiceUser {
   Future<List<Donasi>> getReportDonasiRepo() async {
     final prefs = await SharedPreferences.getInstance();
     var prefToken = prefs.getString('Token');
+    var prefid = prefs.getInt('Id');
+    int? id = prefid;
+
     String? tokenUser = prefToken;
-    var map = await apiServiceUser.getReportDonasiService(tokenUser!);
-    return ResponseDonasi.fromJson(map).data;
+    var map = await apiServiceUser.getReportDonasiService(tokenUser!, id!);
+    return ResponseReportDonasi.fromJson(map).data;
+  }
+
+  //edit password
+  Future<ResponseEditPassword> editPasswordRepo(
+    String password,
+    id,
+    token,
+  ) async {
+    return apiServiceUser.editPasswordService(token, id, password);
+  }
+
+  //edit image profile
+  Future<ResponseEditImageProfile> editImageProfileRepo(
+    String token,
+    id,
+    File filePathImage,
+  ) async {
+    return apiServiceUser.editProfileImagSrvice(token, id, filePathImage);
+  }
+
+  //add Donasi
+  // Future<ResponseDonasi> addDonasiRepo(
+  //   int jumlahDonasi,
+  //   idProgram,
+  //   idUser,
+  //   token,
+  // ) async {
+  //   return apiServiceUser.addDonasiService(
+  //       jumlahDonasi, idProgram, idUser, token);
+  // }
+
+  //delet donasi
+  Future<ResponseDeletDonasi> deletDonsiRepo(
+    String token,
+    id,
+  ) async {
+    return apiServiceUser.deletDonasiService(
+      id,
+      token,
+    );
+  }
+
+//delet img profile
+  Future<ResponseDeletImageProfile> deletImgProfileRepo(
+    String token,
+    id,
+  ) async {
+    return apiServiceUser.deletImgProfilService(token, id);
   }
 }

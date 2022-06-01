@@ -1,19 +1,21 @@
 import 'package:donasi_app/colors/colors.dart';
+import 'package:donasi_app/view/screen/add_donasi_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class DetailListItemProgram extends StatelessWidget {
-  final String images, deskripsi;
+  final String images, deskripsi, namaPanti, lokasi, noHp, rekening;
+  // final VoidCallback idProgram;
   // final BuildContext context;
   // namaPanti, noHp;
   const DetailListItemProgram({
     Key? key,
     required this.images,
     required this.deskripsi,
-    // required this.context,
-    // required this.namaPanti,
-    // required this.noHp,
+    required this.namaPanti,
+    required this.lokasi,
+    required this.noHp,
+    required this.rekening,
+    // required this.idProgram,
   }) : super(key: key);
 
   @override
@@ -22,16 +24,13 @@ class DetailListItemProgram extends StatelessWidget {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: pink,
+          backgroundColor: amber,
           title: const Text('Deskripsi'),
         ),
         body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              SizedBox(
-                height: size.height * 0.01,
-              ),
               Container(
                 height: 250.0,
                 child: Hero(
@@ -57,7 +56,7 @@ class DetailListItemProgram extends StatelessWidget {
                         Text(
                           'Deskripsi',
                           style: TextStyle(
-                              color: kTextColor,
+                              color: amber,
                               fontSize: 22,
                               fontWeight: FontWeight.bold),
                         ),
@@ -68,13 +67,13 @@ class DetailListItemProgram extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(5.0),
                 child: Card(
-                  color: kprimary,
+                  color: amber,
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Text(
                       deskripsi,
                       style: const TextStyle(
-                        color: Colors.black,
+                        color: kTextColor,
                         fontSize: 16.0,
                       ),
                     ),
@@ -88,15 +87,15 @@ class DetailListItemProgram extends StatelessWidget {
                   children: <Widget>[
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: const <Widget>[
-                        Icon(
+                      children: <Widget>[
+                        const Icon(
                           Icons.home_outlined,
-                          color: pink,
+                          color: amber,
                         ),
                         Text(
-                          'Yarnima',
-                          style: TextStyle(
-                              color: kTextColor,
+                          namaPanti,
+                          style: const TextStyle(
+                              color: Colors.black,
                               fontSize: 17.0,
                               fontWeight: FontWeight.bold),
                         ),
@@ -104,15 +103,15 @@ class DetailListItemProgram extends StatelessWidget {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: const <Widget>[
-                        Icon(
+                      children: <Widget>[
+                        const Icon(
                           Icons.location_on_outlined,
-                          color: pink,
+                          color: amber,
                         ),
                         Text(
-                          'Tenggarang-Bondowoso',
-                          style: TextStyle(
-                              color: kTextColor,
+                          lokasi,
+                          style: const TextStyle(
+                              color: Colors.black,
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold),
                         ),
@@ -120,15 +119,15 @@ class DetailListItemProgram extends StatelessWidget {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: const <Widget>[
-                        Icon(
+                      children: <Widget>[
+                        const Icon(
                           Icons.phone_enabled_outlined,
-                          color: pink,
+                          color: amber,
                         ),
                         Text(
-                          '0815664785474',
-                          style: TextStyle(
-                              color: kTextColor,
+                          noHp,
+                          style: const TextStyle(
+                              color: Colors.black,
                               fontSize: 17.0,
                               fontWeight: FontWeight.bold),
                         ),
@@ -136,15 +135,15 @@ class DetailListItemProgram extends StatelessWidget {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: const <Widget>[
-                        Icon(
+                      children: <Widget>[
+                        const Icon(
                           Icons.credit_card_outlined,
-                          color: pink,
+                          color: amber,
                         ),
                         Text(
-                          '475788587547578',
-                          style: TextStyle(
-                              color: kTextColor,
+                          rekening,
+                          style: const TextStyle(
+                              color: Colors.black,
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold),
                         ),
@@ -165,8 +164,15 @@ class DetailListItemProgram extends StatelessWidget {
                   child: FlatButton(
                     padding: const EdgeInsets.symmetric(
                         vertical: 20, horizontal: 10),
-                    color: pink,
-                    onPressed: () {},
+                    color: amber,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const AddDonasiScren(),
+                        ),
+                      );
+                    },
                     child: const Text(
                       'Donasi',
                       style: TextStyle(color: Colors.white, fontSize: 20),

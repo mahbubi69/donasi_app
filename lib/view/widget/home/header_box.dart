@@ -2,12 +2,17 @@ import 'package:donasi_app/colors/colors.dart';
 import 'package:flutter/material.dart';
 
 class HeaderBox extends StatelessWidget {
-  const HeaderBox({
+  HeaderBox({
     Key? key,
     required this.size,
+    required this.onChange,
+    required this.searchController,
   }) : super(key: key);
 
   final Size size;
+  Function(String) onChange;
+  TextEditingController searchController;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,7 +28,7 @@ class HeaderBox extends StatelessWidget {
             ),
             height: size.height * 0.2 - 29,
             decoration: const BoxDecoration(
-              color: kprimary,
+              color: amber,
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(36),
                 bottomRight: Radius.circular(36),
@@ -35,10 +40,8 @@ class HeaderBox extends StatelessWidget {
                   height: size.height * 5,
                 ),
                 Text('Donasi App',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline5!
-                        .copyWith(color: pink, fontWeight: FontWeight.bold)),
+                    style: Theme.of(context).textTheme.headline5!.copyWith(
+                        color: kTextColor, fontWeight: FontWeight.bold)),
               ],
             ),
           ),
@@ -58,7 +61,7 @@ class HeaderBox extends StatelessWidget {
                   BoxShadow(
                     offset: const Offset(0, 10),
                     blurRadius: 50,
-                    color: kprimary.withOpacity(0.23),
+                    color: amber.withOpacity(0.23),
                   ),
                 ],
               ),
@@ -66,11 +69,12 @@ class HeaderBox extends StatelessWidget {
                 children: <Widget>[
                   Expanded(
                     child: TextField(
-                      onChanged: (value) {},
+                      controller: searchController,
+                      onChanged: onChange,
                       decoration: const InputDecoration(
                         hintText: 'cari',
                         hintStyle: TextStyle(
-                          color: pink,
+                          color: amber,
                         ),
                         enabledBorder: InputBorder.none,
                         focusedBorder: InputBorder.none,
@@ -79,7 +83,7 @@ class HeaderBox extends StatelessWidget {
                   ),
                   const Icon(
                     Icons.search,
-                    color: pink,
+                    color: amber,
                   )
                 ],
               ),

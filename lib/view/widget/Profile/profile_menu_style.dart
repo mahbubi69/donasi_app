@@ -12,7 +12,7 @@ class ProfileMenuStyle extends StatelessWidget {
   }) : super(key: key);
 
   final String text, icon;
-  VoidCallback press;
+  final VoidCallback press;
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +20,11 @@ class ProfileMenuStyle extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: TextButton(
         style: TextButton.styleFrom(
-            primary: kprimary,
+            primary: primaryAmber,
             padding: const EdgeInsets.all(20),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-            backgroundColor: kprimary),
+            backgroundColor: amber),
         onPressed: press,
         child: Row(
           children: [
@@ -37,12 +37,12 @@ class ProfileMenuStyle extends StatelessWidget {
             Expanded(
               child: Text(
                 text,
-                style: const TextStyle(color: pink),
+                style: const TextStyle(color: kTextColor),
               ),
             ),
             const Icon(
               Icons.arrow_forward_ios,
-              color: pink,
+              color: kTextColor,
             ),
           ],
         ),

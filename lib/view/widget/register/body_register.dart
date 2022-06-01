@@ -67,7 +67,7 @@ class _BodyRegisterState extends State<BodyRegister> {
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 35,
-                      color: pink,
+                      color: amber,
                       height: 1),
                 ),
                 SizedBox(
@@ -79,13 +79,14 @@ class _BodyRegisterState extends State<BodyRegister> {
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   width: size.width * 0.8,
                   decoration: BoxDecoration(
-                      color: kprimary, borderRadius: BorderRadius.circular(20)),
+                      color: primaryAmber,
+                      borderRadius: BorderRadius.circular(20)),
                   child: TextFormField(
                     controller: namaControll,
                     // onChanged: onChanged,
                     decoration: const InputDecoration(
                       hintText: 'Nama',
-                      hintStyle: TextStyle(fontSize: 17.0, color: Colors.white),
+                      hintStyle: TextStyle(fontSize: 17.0, color: Colors.black),
                       border: InputBorder.none,
                     ),
                   ),
@@ -99,7 +100,8 @@ class _BodyRegisterState extends State<BodyRegister> {
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   width: size.width * 0.8,
                   decoration: BoxDecoration(
-                      color: pink, borderRadius: BorderRadius.circular(20)),
+                      color: primaryAmber,
+                      borderRadius: BorderRadius.circular(20)),
                   child: TextFormField(
                     controller: emailControll,
                     validator: (value) =>
@@ -108,9 +110,9 @@ class _BodyRegisterState extends State<BodyRegister> {
                     decoration: const InputDecoration(
                         hintText: 'Email',
                         hintStyle:
-                            TextStyle(fontSize: 17.0, color: Colors.white),
+                            TextStyle(fontSize: 17.0, color: Colors.black),
                         border: InputBorder.none,
-                        fillColor: pink),
+                        fillColor: amber),
                   ),
                 ),
                 SizedBox(
@@ -122,13 +124,14 @@ class _BodyRegisterState extends State<BodyRegister> {
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   width: size.width * 0.8,
                   decoration: BoxDecoration(
-                      color: kprimary, borderRadius: BorderRadius.circular(20)),
+                      color: primaryAmber,
+                      borderRadius: BorderRadius.circular(20)),
                   child: TextFormField(
                     controller: passwordControll,
                     // onChanged: onChanged,
                     decoration: const InputDecoration(
                       hintText: 'Password',
-                      hintStyle: TextStyle(fontSize: 17.0, color: Colors.white),
+                      hintStyle: TextStyle(fontSize: 17.0, color: Colors.black),
                       border: InputBorder.none,
                     ),
                   ),
@@ -143,13 +146,14 @@ class _BodyRegisterState extends State<BodyRegister> {
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   width: size.width * 0.8,
                   decoration: BoxDecoration(
-                      color: kprimary, borderRadius: BorderRadius.circular(20)),
+                      color: primaryAmber,
+                      borderRadius: BorderRadius.circular(20)),
                   child: TextFormField(
                     controller: alamatControll,
                     // onChanged: onChanged,
                     decoration: const InputDecoration(
                       hintText: 'Alamat',
-                      hintStyle: TextStyle(fontSize: 17.0, color: Colors.white),
+                      hintStyle: TextStyle(fontSize: 17.0, color: Colors.black),
                       border: InputBorder.none,
                     ),
                   ),
@@ -160,13 +164,14 @@ class _BodyRegisterState extends State<BodyRegister> {
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   width: size.width * 0.8,
                   decoration: BoxDecoration(
-                      color: kprimary, borderRadius: BorderRadius.circular(20)),
+                      color: primaryAmber,
+                      borderRadius: BorderRadius.circular(20)),
                   child: TextFormField(
                     controller: jenisKelaminControll,
                     // onChanged: onChanged,
                     decoration: const InputDecoration(
                       hintText: 'Jenis Kelamin',
-                      hintStyle: TextStyle(fontSize: 17.0, color: Colors.white),
+                      hintStyle: TextStyle(fontSize: 17.0, color: Colors.black),
                       border: InputBorder.none,
                     ),
                   ),
@@ -180,14 +185,15 @@ class _BodyRegisterState extends State<BodyRegister> {
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   width: size.width * 0.8,
                   decoration: BoxDecoration(
-                      color: kprimary, borderRadius: BorderRadius.circular(20)),
+                      color: primaryAmber,
+                      borderRadius: BorderRadius.circular(20)),
                   child: TextFormField(
                     controller: tanggalLahirControll,
                     keyboardType: TextInputType.datetime,
                     // onChanged: onChanged,
                     decoration: const InputDecoration(
                       hintText: 'Tanggal Lahir',
-                      hintStyle: TextStyle(fontSize: 17.0, color: Colors.white),
+                      hintStyle: TextStyle(fontSize: 17.0, color: Colors.black),
                       border: InputBorder.none,
                     ),
                   ),
@@ -201,13 +207,14 @@ class _BodyRegisterState extends State<BodyRegister> {
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   width: size.width * 0.8,
                   decoration: BoxDecoration(
-                      color: kprimary, borderRadius: BorderRadius.circular(20)),
+                      color: primaryAmber,
+                      borderRadius: BorderRadius.circular(20)),
                   child: TextFormField(
                     controller: nomorHpControll,
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
                       hintText: 'No Hp',
-                      hintStyle: TextStyle(fontSize: 17.0, color: Colors.white),
+                      hintStyle: TextStyle(fontSize: 17.0, color: Colors.black),
                       border: InputBorder.none,
                     ),
                   ),
@@ -223,11 +230,20 @@ class _BodyRegisterState extends State<BodyRegister> {
                     child: FlatButton(
                       padding: const EdgeInsets.symmetric(
                           vertical: 20, horizontal: 10),
-                      color: pink,
+                      color: amber,
                       onPressed: () {
                         setState(() {
-                          registerSubmit(nama, email, password, role, image,
-                              alamat, jenisKelamin, tanggalLahir, noHp, context);
+                          registerSubmit(
+                              nama,
+                              email,
+                              password,
+                              role,
+                              image,
+                              alamat,
+                              jenisKelamin,
+                              tanggalLahir,
+                              noHp,
+                              context);
                         });
                       },
                       child: const Text(
@@ -256,14 +272,14 @@ class _BodyRegisterState extends State<BodyRegister> {
 
   Future<void> registerSubmit(
     final String nama,
-    final String email,
-    final String password,
-    final String role,
-    final String image,
-    final String alamat,
-    final String jenisKelamin,
-    final String tanggalLahir,
-    final String noHp,
+    email,
+    password,
+    role,
+    image,
+    alamat,
+    jenisKelamin,
+    tanggalLahir,
+    noHp,
     BuildContext contex,
   ) async {
     String nama = namaControll.value.text;

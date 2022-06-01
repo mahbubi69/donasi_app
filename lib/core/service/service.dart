@@ -2,15 +2,19 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:donasi_app/core/response/resp_add_image_profile.dart';
+import 'package:donasi_app/core/response/resp_add_struck_donasi.dart';
 import 'package:donasi_app/core/response/resp_delet_donasi.dart';
 import 'package:donasi_app/core/response/resp_delet_image_profile.dart';
+import 'package:donasi_app/core/response/resp_add_donasi.dart';
 import 'package:donasi_app/core/response/resp_edit_password.dart';
 import 'package:donasi_app/core/response/resp_edit_profile.dart';
 import 'package:donasi_app/core/response/resp_login_user.dart';
 import 'package:donasi_app/core/response/resp_register_user.dart';
 import 'package:donasi_app/core/utils/value.dart';
+import 'package:get/get_connect/http/src/request/request.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
+import 'package:path/path.dart';
 
 class ServiceUser {
   //login
@@ -157,7 +161,7 @@ class ServiceUser {
 //edit password
   Future<ResponseEditPassword> editPasswordService(
     String token,
-    id,
+    int id,
     password,
   ) async {
     var response = await http.put(Uri.parse('$BASE_URL/api/editPassword/$id'),
@@ -175,73 +179,49 @@ class ServiceUser {
     return ResponseEditPassword.fromJson(responseEditPassword);
   }
 
-  // //add image profile
-  // Future<ResponseEditImageProfile> editImageProfileService(
-  //   String token,
-  //   id,
-  //   File fileImage,
-  // ) async {
-  //   // final file = await MultipartFile.fromFile(path, filename: 'test_file');
-  //   var imgBytes = fileImage.readAsBytes();
-
-  //   var response =
-  //       await http.put(Uri.parse('$BASE_URL/api/addImageUser/$id'), headers: {
-  //     'Content-type': 'application/json',
-  //     'Accept': 'application/json',
-  //     'token': '$token',
-  //   }, body: {
-  //     'image': imgBytes
-  //   });
-
-  //   var reponseEditImage = json.decode(response.body);
-  //   return ResponseEditImageProfile.fromJson(reponseEditImage);
-  // }
-
   //add image profile
   Future<ResponseEditImageProfile> editProfileImagSrvice(
     String token,
     id,
-    File fileImage,
+    File? fileImage,
   ) async {
-    var header = {
-      'Content-type': 'multipart/form-data',
-      // 'Accept': 'application/json',
-      'token': '$token',
-    };
-    var request = http.MultipartRequest(
-        'PUT', Uri.parse('$BASE_URL/api/addImageUser/$id'));
-
-    request.files.add(await http.MultipartFile.fromPath(
-        'image', fileImage.absolute.path.toString()));
+    var stream = http.ByteStream(fileImage!.openRead());
+    Map<String, String> headers = {"token": '$token'};
+    var fileLength = await fileImage.length();
+    var uri = Uri.parse('$BASE_URL/api/addImageUser/$id');
+    var request = await http.MultipartRequest("PUT", uri);
+    request.files.add(http.MultipartFile('image', stream, fileLength,
+        filename: fileImage.path));
+    request.headers.addAll(headers);
     var streamResponse = await request.send();
     var parseResponse = await http.Response.fromStream(streamResponse);
-    var response = json.decode(parseResponse.body);
-    return ResponseEditImageProfile.fromJson(response);
+    var responseJson = json.decode(parseResponse.body);
+    return ResponseEditImageProfile.fromJson(responseJson);
   }
 
 //add donasi
-  // Future<ResponseDonasi> addDonasiService(
-  //   int jumlahDonasi,
-  //   idProgram,
-  //   idUser,
-  //   token,
-  // ) async {
-  //   var response = await http.post(Uri.parse('$BASE_URL/api/addDonasi'),
-  //       headers: {
-  //         'Content-type': 'application/json',
-  //         'Accept': 'application/json',
-  //         'token': '$token'
-  //       },
-  //       body: jsonEncode(
-  //         <String, int>{
-  //           "jumlah_donasi": jumlahDonasi,
-  //           "program_id": idProgram,
-  //           "user_id": idUser
-  //         },
-  //       ));
-  //   var responseDonasi = json.decode(response.body);
-  //   return ResponseDonasi.fromJson(responseDonasi);
-  // }
+  Future<ResponseAddDonasi> addDonasiService(
+    int jumlahDonasi,
+    idProgram,
+    idUser,
+    String token,
+  ) async {
+    var response = await http.post(Uri.parse('$BASE_URL/api/addDonasi'),
+        headers: {
+          'Content-type': 'application/json',
+          'Accept': 'application/json',
+          'token': '$token'
+        },
+        body: jsonEncode(
+          <String, int>{
+            "jumlah_donasi": jumlahDonasi,
+            "program_id": idProgram,
+            "user_id": idUser
+          },
+        ));
+    var responseDonasi = json.decode(response.body);
+    return ResponseAddDonasi.fromJson(responseDonasi);
+  }
 
   //delet donasi
   Future<ResponseDeletDonasi> deletDonasiService(
@@ -275,5 +255,25 @@ class ServiceUser {
     );
     var responseDeltImgProfile = json.decode(response.body);
     return ResponseDeletImageProfile.fromJson(responseDeltImgProfile);
+  }
+
+  //add struck donasi
+  Future<ResponseAddStrukDonasi> addStruckDonasiService(
+    String token,
+    int id,
+    File? fileStruck,
+  ) async {
+    var stream = http.ByteStream(fileStruck!.openRead());
+    Map<String, String> headers = {"token": '$token'};
+    var fileLength = await fileStruck.length();
+    var uri = Uri.parse('$BASE_URL/api/addStrukDonasi/$id');
+    var request = await http.MultipartRequest("PUT", uri);
+    request.files.add(http.MultipartFile('image', stream, fileLength,
+        filename: fileStruck.path));
+    request.headers.addAll(headers);
+    var streamResponse = await request.send();
+    var parseResponse = await http.Response.fromStream(streamResponse);
+    var responseJson = json.decode(parseResponse.body);
+    return ResponseAddStrukDonasi.fromJson(responseJson);
   }
 }

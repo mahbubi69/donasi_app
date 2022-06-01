@@ -3,9 +3,10 @@ import 'dart:io';
 import 'package:donasi_app/core/model/model_donasi.dart';
 import 'package:donasi_app/core/model/model_program.dart';
 import 'package:donasi_app/core/response/resp_add_image_profile.dart';
+import 'package:donasi_app/core/response/resp_add_struck_donasi.dart';
 import 'package:donasi_app/core/response/resp_delet_donasi.dart';
 import 'package:donasi_app/core/response/resp_delet_image_profile.dart';
-import 'package:donasi_app/core/response/resp_donasi.dart';
+import 'package:donasi_app/core/response/resp_add_donasi.dart';
 import 'package:donasi_app/core/response/resp_edit_password.dart';
 import 'package:donasi_app/core/response/resp_program.dart';
 import 'package:donasi_app/core/response/resp_edit_profile.dart';
@@ -114,16 +115,16 @@ class Repository extends ServiceUser {
     return apiServiceUser.editProfileImagSrvice(token, id, filePathImage);
   }
 
-  //add Donasi
-  // Future<ResponseDonasi> addDonasiRepo(
-  //   int jumlahDonasi,
-  //   idProgram,
-  //   idUser,
-  //   token,
-  // ) async {
-  //   return apiServiceUser.addDonasiService(
-  //       jumlahDonasi, idProgram, idUser, token);
-  // }
+  // add Donasi
+  Future<ResponseAddDonasi> addDonasiRepo(
+    int jumlahDonasi,
+    idProgram,
+    idUser,
+    String token,
+  ) async {
+    return apiServiceUser.addDonasiService(
+        jumlahDonasi, idProgram, idUser, token);
+  }
 
   //delet donasi
   Future<ResponseDeletDonasi> deletDonsiRepo(
@@ -142,5 +143,14 @@ class Repository extends ServiceUser {
     id,
   ) async {
     return apiServiceUser.deletImgProfilService(token, id);
+  }
+
+  //add struck donasi
+  Future<ResponseAddStrukDonasi> addStruckDonasi(
+    String token,
+    int id,
+    File? fileStruck,
+  ) async {
+    return apiServiceUser.addStruckDonasiService(token, id, fileStruck);
   }
 }

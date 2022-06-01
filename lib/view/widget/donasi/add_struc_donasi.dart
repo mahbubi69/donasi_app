@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:donasi_app/colors/colors.dart';
+import 'package:donasi_app/core/repository/repository.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AddStruckDonasi extends StatefulWidget {
   const AddStruckDonasi({Key? key}) : super(key: key);
@@ -12,11 +14,16 @@ class AddStruckDonasi extends StatefulWidget {
 }
 
 class _AddStruckDonasiState extends State<AddStruckDonasi> {
+  final Repository repoDonasi = Repository();
   File? imageFile;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: amber,
+        title: const Text('Donasi'),
+      ),
       body: SizedBox(
         height: size.height,
         width: double.infinity,
@@ -33,6 +40,19 @@ class _AddStruckDonasiState extends State<AddStruckDonasi> {
                     },
                     child: Stack(
                       children: [
+                        Container(
+                          child: CircleAvatar(
+                            backgroundColor: kTextColor,
+                            radius: 70,
+                            backgroundImage:
+                                // NetworkImage(BASE_URL + profile!.data.image),
+                                imageFile == null
+                                    ? const AssetImage(
+                                            'assets/icons/camera_donasi.png')
+                                        as ImageProvider
+                                    : FileImage(imageFile!),
+                          ),
+                        ),
                         // imageFile == null
                         //     ? Image.asset(
                         //         'assets/icons/camera_donasi.png',
@@ -55,6 +75,7 @@ class _AddStruckDonasiState extends State<AddStruckDonasi> {
                         onPressed: () {
                           setState(
                             () {
+                              addStruckDonasiSubmit(imageFile!);
                               // Navigator.push(
                               //     context,
                               //     MaterialPageRoute(
@@ -76,6 +97,39 @@ class _AddStruckDonasiState extends State<AddStruckDonasi> {
             )
           ],
         ),
+      ),
+    );
+  }
+
+  Future<void> addStruckDonasiSubmit(File fileStruck) async {
+    final prefs = await SharedPreferences.getInstance();
+    var prefToken = prefs.getString('Token');
+    var prefIdDonasi = prefs.getInt('IdDonasi');
+    String? token = prefToken;
+    int? idProgram = prefIdDonasi!;
+
+    var response =
+        await repoDonasi.addStruckDonasi(token!, idProgram, fileStruck);
+
+    if (response.status == 200) {
+      showStruckDonasiDialog('Berhasil', response.message);
+    } else {
+      showStruckDonasiDialog('Error', response.message);
+    }
+  }
+
+  Future<void> showStruckDonasiDialog(String title, message) {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Ok'),
+          ),
+        ],
       ),
     );
   }

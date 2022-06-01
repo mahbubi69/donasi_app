@@ -1,34 +1,32 @@
-// To parse this JSON data, do
-//
-//     final responseDonasi = responseDonasiFromJson(jsonString);
-
 import 'package:meta/meta.dart';
 import 'dart:convert';
 
-ResponseDonasi responseDonasiFromJson(String str) =>
-    ResponseDonasi.fromJson(json.decode(str));
+ResponseAddDonasi responseAddDonasiFromJson(String str) =>
+    ResponseAddDonasi.fromJson(json.decode(str));
 
-String responseDonasiToJson(ResponseDonasi data) => json.encode(data.toJson());
+String responseAddDonasiToJson(ResponseAddDonasi data) =>
+    json.encode(data.toJson());
 
-class ResponseDonasi {
-  ResponseDonasi({
+class ResponseAddDonasi {
+  ResponseAddDonasi({
     required this.data,
     required this.message,
     required this.status,
   });
 
-  final Data? data;
+  final Data data;
   final String message;
   final int status;
 
-  factory ResponseDonasi.fromJson(Map<String, dynamic> json) => ResponseDonasi(
-        data: Data?.fromJson(json["data"]),
+  factory ResponseAddDonasi.fromJson(Map<String, dynamic> json) =>
+      ResponseAddDonasi(
+        data: Data.fromJson(json["data"]),
         message: json["message"],
         status: json["status"],
       );
 
   Map<String, dynamic> toJson() => {
-        "data": data?.toJson(),
+        "data": data.toJson(),
         "message": message,
         "status": status,
       };
@@ -54,7 +52,7 @@ class Data {
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         id: json["id"],
         dateDonation: DateTime.parse(json["date_donation"]),
-        buktiDonation: json["bukti_donation"]?.isEmpty,
+        buktiDonation: json["bukti_donation"],
         jumlahDonasi: json["jumlah_donasi"],
         programId: json["program_id"],
         userId: json["user_id"],
@@ -64,7 +62,7 @@ class Data {
         "id": id,
         "date_donation":
             "${dateDonation.year.toString().padLeft(4, '0')}-${dateDonation.month.toString().padLeft(2, '0')}-${dateDonation.day.toString().padLeft(2, '0')}",
-        "bukti_donation": buktiDonation == null ? null : buktiDonation,
+        "bukti_donation": buktiDonation,
         "jumlah_donasi": jumlahDonasi,
         "program_id": programId,
         "user_id": userId,

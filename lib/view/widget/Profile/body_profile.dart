@@ -229,7 +229,7 @@ class _BodyPofileState extends State<BodyPofile> {
                           // uploadImageSubmit(imageFile!, context);
                           imageFile == null
                               ? messageImage(
-                                  'Error', "file tidak ada yang dipilih")
+                                  'Error', "tidak ada file yang di pilih")
                               : uploadImageSubmit(imageFile!);
                           // uploadImageSubmit(imageFile!);
                         },
@@ -305,7 +305,7 @@ class _BodyPofileState extends State<BodyPofile> {
     var response =
         await repositoryUser.editImageProfileRepo(token!, id, imageFiles);
     if (response.status == 200) {
-      logger.d(response.token!.toString());
+      // logger.d(response.token!.toString());
       try {
         messageImage('Berhasil', response.message);
       } catch (e) {

@@ -4,6 +4,7 @@ import 'package:donasi_app/colors/colors.dart';
 import 'package:donasi_app/core/repository/repository.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AddDonasi extends StatefulWidget {
   const AddDonasi({Key? key}) : super(key: key);
@@ -65,7 +66,7 @@ class _AddDonasiState extends State<AddDonasi> {
                       color: amber,
                       onPressed: () {
                         setState(() {
-                          // addDonasiSubmit(jumlahDonasi, context);
+                          addDonasiSubmit(jumlahDonasi, context);
                         });
                       },
                       child: const Text(
@@ -85,42 +86,42 @@ class _AddDonasiState extends State<AddDonasi> {
   }
 
 // add donasi submit
-  // Future<void> addDonasiSubmit(
-  //   int jumlahDonasi,
-  //   BuildContext ctx,
-  // ) async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   var prefToken = prefs.getString('Token');
-  //   var prefIdUser = prefs.getInt('Id');
-  //   var prefIdProgram = prefs.getInt('IdProgram');
+  Future<void> addDonasiSubmit(
+    int jumlahDonasi,
+    BuildContext ctx,
+  ) async {
+    final prefs = await SharedPreferences.getInstance();
+    var prefToken = prefs.getString('Token');
+    var prefIdUser = prefs.getInt('Id');
+    var prefIdProgram = prefs.getInt('IdProgram');
 
-  //   String? token = prefToken;
-  //   int? idUser = prefIdUser;
-  //   int? idProgram = prefIdProgram!;
+    String? token = prefToken;
+    int? idUser = prefIdUser;
+    int? idProgram = prefIdProgram!;
 
-  //   // String nilaiDonasi = jumlahDonasiControll.value.text;
-  //   // var nilaiParseToint = int.parse(nilaiDonasi);
-  //   int? nilaiDonasi = 5005;
+    String nilaiDonasi = jumlahDonasiControll.text;
+    var nilaiParseToint = int.parse(nilaiDonasi);
+    // int? nilaiDonasi = 5005;
 
-  //   var response = await repoDonasi.addDonasiRepo(
-  //     nilaiDonasi,
-  //     idProgram,
-  //     idUser,
-  //     token,
-  //   );
+    var response = await repoDonasi.addDonasiRepo(
+      nilaiParseToint,
+      idProgram,
+      idUser,
+      token!,
+    );
 
-  //   if (response.status == 200) {
-  //     logger.d("Success donasi");
-  //     try {
-  //       logger.d(response.message);
-  //       showDonasiDialog('Berhasil', 'Tolong segera tranfers terimakasih');
-  //     } catch (e) {
-  //       print(e);
-  //     }
-  //   } else {
-  //     showDonasiDialog('Error', response.message);
-  //   }
-  // }
+    if (response.status == 200) {
+      logger.d("Success donasi");
+      try {
+        logger.d(response.message);
+        showDonasiDialog('Berhasil', 'Tolong segera tranfers terimakasih');
+      } catch (e) {
+        print(e);
+      }
+    } else {
+      showDonasiDialog('Error', response.message);
+    }
+  }
 
   Future<void> showDonasiDialog(String title, message) {
     return showDialog(

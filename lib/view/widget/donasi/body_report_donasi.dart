@@ -1,6 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
-import 'dart:io';
+import 'dart:async';
 
 import 'package:donasi_app/colors/colors.dart';
 import 'package:donasi_app/core/model/model_donasi.dart';
@@ -22,12 +22,27 @@ class BodyReportDonasi extends StatefulWidget {
 class _BodyReportDonasiState extends State<BodyReportDonasi> {
   final Repository repoDonasi = Repository();
   Image? imageFile;
+  Duration endTimer = Duration(hours: 1);
+  Timer? timer;
 
   @override
   void initState() {
     super.initState();
     // repoDonasi = Repository();
+    // timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    //   setState(() {
+    //     endTimer -= Duration(seconds: 1);
+    //   });
+    // });
   }
+
+  // String parseDigitTimer(int digit) {
+  //   if (digit < 10) {
+  //     return '0$digit';
+  //   } else {
+  //     return '$digit';
+  //   }
+  // }
 
   getParseFormateDate(_date) {
     var inputFormat = DateFormat('yyyy-MM-dd HH:mm');
@@ -74,16 +89,29 @@ class _BodyReportDonasiState extends State<BodyReportDonasi> {
                                   donasi.buktiDonation.isEmpty ?? true
                                       ? GestureDetector(
                                           onTap: () {
+                                            prefSetIdDonasi(donasi.id);
                                             Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (index) =>
-                                                        const AddStruckDonasi()));
+                                                        AddStruckDonasi()));
                                           },
-                                          child: Image.asset(
-                                            'assets/icons/camera_donasi.png',
-                                            height: 250,
-                                            width: 250,
+                                          child: Column(
+                                            children: [
+                                              Image.asset(
+                                                'assets/icons/camera_donasi.png',
+                                                height: 200,
+                                                width: 200,
+                                              ),
+                                              const Text(
+                                                'waktu akan habis',
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: Colors.red),
+                                              ),
+                                              // Text(
+                                              // '${endTimer.inHours} : ${parseDigitTimer(endTimer.inMinutes % 60)} ${parseDigitTimer(endTimer.inSeconds % 60)}')
+                                            ],
                                           ))
                                       : Image.network(
                                           BASE_URL + donasi.buktiDonation,
@@ -122,7 +150,7 @@ class _BodyReportDonasiState extends State<BodyReportDonasi> {
                                     color: amber,
                                   ),
                                   Text(
-                                    donasi.jumlahDonasi.toString(),
+                                    'Rp.' + donasi.jumlahDonasi.toString(),
                                     style: const TextStyle(
                                       color: Colors.black,
                                       fontSize: 16,

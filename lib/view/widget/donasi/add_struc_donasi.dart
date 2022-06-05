@@ -16,6 +16,7 @@ class AddStruckDonasi extends StatefulWidget {
 class _AddStruckDonasiState extends State<AddStruckDonasi> {
   final Repository repoDonasi = Repository();
   File? imageFile;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -41,24 +42,20 @@ class _AddStruckDonasiState extends State<AddStruckDonasi> {
                     child: Stack(
                       children: [
                         Container(
-                          child: CircleAvatar(
-                            backgroundColor: kTextColor,
-                            radius: 70,
-                            backgroundImage:
-                                // NetworkImage(BASE_URL + profile!.data.image),
-                                imageFile == null
-                                    ? const AssetImage(
-                                            'assets/icons/camera_donasi.png')
-                                        as ImageProvider
-                                    : FileImage(imageFile!),
-                          ),
+                          child: Container(
+                              child: imageFile == null
+                                  ? Container(
+                                      height: 200,
+                                      width: 200,
+                                      child: Image.asset(
+                                          'assets/icons/camera_donasi.png'),
+                                    )
+                                  : Container(
+                                      height: 200,
+                                      width: 200,
+                                      child: Image.file(imageFile!),
+                                    )),
                         ),
-                        // imageFile == null
-                        //     ? Image.asset(
-                        //         'assets/icons/camera_donasi.png',
-                        //         height: size.height * 0.40,
-                        //       )
-                        //     : FileImage(File(imageFile!) as ImageProvider)
                       ],
                     ),
                   ),
@@ -76,11 +73,6 @@ class _AddStruckDonasiState extends State<AddStruckDonasi> {
                           setState(
                             () {
                               addStruckDonasiSubmit(imageFile!);
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) =>
-                              //             const NavigationBarStyle()));
                             },
                           );
                         },

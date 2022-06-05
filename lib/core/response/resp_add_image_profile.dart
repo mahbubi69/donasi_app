@@ -26,6 +26,7 @@ class ResponseEditImageProfile {
         status: json["Status"],
         data: AddImageProfile.fromJson(json["data"]),
       );
+
   Map<String, dynamic> toJson() => {
         "Message": message,
         "Status": status,

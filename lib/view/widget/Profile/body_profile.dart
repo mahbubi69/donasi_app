@@ -10,10 +10,13 @@ import 'package:donasi_app/view/screen/setting_screen.dart';
 import 'package:donasi_app/view/widget/Profile/body_detail_profile.dart';
 import 'package:donasi_app/view/widget/Profile/profile_menu_style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:path_provider/path_provider.dart';
 
 class BodyPofile extends StatefulWidget {
   const BodyPofile({Key? key}) : super(key: key);
@@ -29,6 +32,7 @@ class _BodyPofileState extends State<BodyPofile> {
   var getProfileId;
   var uploadImage;
   var logger = Logger();
+
   @override
   void initState() {
     super.initState();
@@ -37,6 +41,7 @@ class _BodyPofileState extends State<BodyPofile> {
 
   @override
   var appBarHeight = AppBar().preferredSize.height;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -103,8 +108,7 @@ class _BodyPofileState extends State<BodyPofile> {
                 profile!.data.email,
                 style: const TextStyle(fontSize: 20, color: Colors.black54),
               ),
-              const SizedBox(height: 5),
-              const SizedBox(height: 45),
+              const SizedBox(height: 50),
               ProfileMenuStyle(
                 text: 'My Account',
                 press: () {
@@ -112,23 +116,25 @@ class _BodyPofileState extends State<BodyPofile> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => DetailProfile(
-                              nama: profile.data.name,
-                              alamat: profile.data.alamat,
-                              tglLahir: profile.data.tglLahir,
-                              noHp: profile.data.noHp,
-                              onpres: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const EditProfileScreen()));
-                              },
-                              image: profile?.data.image.isEmpty ?? true
-                                  ? const AssetImage(
-                                          'assets/icons/icon_user.png')
-                                      as ImageProvider
-                                  : NetworkImage(
-                                      BASE_URL + profile.data.image))));
+                                nama: profile.data.name,
+                                alamat: profile.data.alamat,
+                                tglLahir: profile.data.tglLahir,
+                                noHp: profile.data.noHp,
+                                onpres: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const EditProfileScreen()));
+                                },
+                                image: profile.data.image.isEmpty ?? true
+                                    ? const AssetImage(
+                                            'assets/icons/icon_user.png')
+                                        as ImageProvider
+                                    : NetworkImage(
+                                        BASE_URL + profile.data.image),
+                                onpresImage: () {},
+                              )));
                 },
                 icon: 'assets/svg/ic_user.svg',
               ),
@@ -153,6 +159,53 @@ class _BodyPofileState extends State<BodyPofile> {
         },
       ),
     );
+  }
+
+  //dialog profile
+  Future<void> showDialogProfile(
+    BuildContext ctx,
+    ImageProvider imgProf,
+  ) {
+    return showDialog(
+        context: ctx,
+        builder: (ctx) {
+          return Center(
+            child: Material(
+              type: MaterialType.transparency,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: amber,
+                ),
+                padding: EdgeInsets.all(15),
+                width: MediaQuery.of(ctx).size.width * 0.7,
+                height: 325,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(5),
+                      child: Container(
+                        padding: const EdgeInsets.all(10.0),
+                        width: 200,
+                        height: 180,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white, width: 5),
+                          shape: BoxShape.circle,
+                          color: Colors.white,
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: imgProf,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
   }
 
 //open camera
@@ -213,7 +266,8 @@ class _BodyPofileState extends State<BodyPofile> {
                       ),
                       InkWell(
                         onTap: () {
-                          deletImgProfileSubmit();
+                          // deletImgProfileSubmit();
+                          deletImageSubmit();
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(20.0),
@@ -279,18 +333,45 @@ class _BodyPofileState extends State<BodyPofile> {
     );
   }
 
-  //delet img profile submit
-  Future<void> deletImgProfileSubmit() async {
+  // //parse to file
+  // Future<File> assetsParseFile(String path) async {
+  //   final byteData = await rootBundle.load('assets/$path');
+  //   final file = File('${(await getTemporaryDirectory()).path}$path');
+  //   await file.writeAsBytes(byteData.buffer
+  //       .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+  //
+  //   return file;
+  // }
+  Future<File> getImageFileFromAssets(String path) async {
+    final byteData = await rootBundle.load('assets/$path');
+
+    final file = File('${(await getTemporaryDirectory()).path}/$path');
+    await file.writeAsBytes(byteData.buffer
+        .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+
+    return file;
+  }
+
+  Future<void> deletImageSubmit() async {
     final prefs = await SharedPreferences.getInstance();
     var prefid = prefs.getInt('Id');
     var prefToken = prefs.getString('Token');
     int? id = prefid;
-    String? token = prefToken;
-    var response = await repositoryUser.deletImgProfileRepo(token!, id);
+    String? token = prefToken, title = 'image';
+    // File fileImage = await assetsParseFile('icons/icon_user.png');
+    File fileImg = File('assets/icons/icon_user.png');
+
+    var response =
+        await repositoryUser.deletImgProfileRepo(token!, id!, title, fileImg);
     if (response.status == 200) {
-      messageImage('Berhasil', response.message);
+      // logger.d(response.token!.toString());
+      try {
+        messageImage('Berhasil', "berhasil delet image");
+      } catch (e) {
+        print(e);
+      }
     } else {
-      messageImage('Error', response.message);
+      messageImage('Error', "delet image gagal");
     }
   }
 
@@ -303,7 +384,7 @@ class _BodyPofileState extends State<BodyPofile> {
     String? token = prefToken;
 
     var response =
-        await repositoryUser.editImageProfileRepo(token!, id, imageFiles);
+        await repositoryUser.editImageProfileRepo(token!, id!, imageFiles);
     if (response.status == 200) {
       // logger.d(response.token!.toString());
       try {

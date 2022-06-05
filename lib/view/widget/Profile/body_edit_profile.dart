@@ -144,8 +144,6 @@ class _BodyEditProfileState extends State<BodyEditProfile> {
     if (response.status == 200) {
       logger.d('berhasil register');
       try {
-        // logger.d(response.message);
-        // Timer(const Duration(seconds: 2), () => Navigator.pop(context));
         showErrorDialog('berhasil', response.message);
       } catch (e) {
         print(e);

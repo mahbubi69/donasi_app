@@ -1,13 +1,13 @@
-// ignore_for_file: deprecated_member_use
-
 import 'dart:async';
 
+import 'package:cron/cron.dart';
 import 'package:donasi_app/colors/colors.dart';
 import 'package:donasi_app/core/model/model_donasi.dart';
 import 'package:donasi_app/core/repository/repository.dart';
 import 'package:donasi_app/core/utils/value.dart';
 import 'package:donasi_app/view/widget/donasi/add_struc_donasi.dart';
 import 'package:donasi_app/view/widget/donasi/header_top.dart';
+import 'package:donasi_app/view/widget/home/notification_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,25 +24,25 @@ class _BodyReportDonasiState extends State<BodyReportDonasi> {
   Image? imageFile;
   Duration endTimer = Duration(hours: 1);
   Timer? timer;
+  final cron = Cron();
+  var timeCron;
 
   @override
   void initState() {
     super.initState();
-    // repoDonasi = Repository();
-    // timer = Timer.periodic(Duration(seconds: 1), (timer) {
-    //   setState(() {
-    //     endTimer -= Duration(seconds: 1);
-    //   });
-    // });
+    NotificationWidget.init();
   }
 
-  // String parseDigitTimer(int digit) {
-  //   if (digit < 10) {
-  //     return '0$digit';
-  //   } else {
-  //     return '$digit';
-  //   }
-  // }
+  schedulAutoDeletDonasi(int id) {
+    cron.schedule(
+        Schedule.parse('*/2 * * * *'),
+        () async => {
+              deletDonasiSubmit(id),
+              NotificationWidget.showNotification(
+                  title: 'Notifikasi',
+                  body: 'anda telat membagikan srtuk anda'),
+            });
+  }
 
   getParseFormateDate(_date) {
     var inputFormat = DateFormat('yyyy-MM-dd HH:mm');
@@ -79,7 +79,7 @@ class _BodyReportDonasiState extends State<BodyReportDonasi> {
                             getParseFormateDate(donasi.dateDonation.toString());
                         return Card(
                           clipBehavior: Clip.antiAlias,
-                          color: amber,
+                          color: primaryAmber,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30)),
                           child: Column(
@@ -105,12 +105,17 @@ class _BodyReportDonasiState extends State<BodyReportDonasi> {
                                               ),
                                               const Text(
                                                 'waktu akan habis',
+                                                // 'waktu akan habis ${schedulAutoDeletDonasi(donasi.id)}',
                                                 style: TextStyle(
                                                     fontSize: 20,
                                                     color: Colors.red),
                                               ),
-                                              // Text(
-                                              // '${endTimer.inHours} : ${parseDigitTimer(endTimer.inMinutes % 60)} ${parseDigitTimer(endTimer.inSeconds % 60)}')
+                                              Container(
+                                                child: schedulAutoDeletDonasi(
+                                                    donasi.id),
+                                              ),
+                                              Text(
+                                                  '${endTimer.inHours} : ${doubleParseTime(endTimer.inMinutes % 60)} ${doubleParseTime(endTimer.inSeconds % 60)}')
                                             ],
                                           ))
                                       : Image.network(
@@ -166,8 +171,7 @@ class _BodyReportDonasiState extends State<BodyReportDonasi> {
                                     children: [
                                       FlatButton(
                                         onPressed: () {
-                                          deletDonasiSubmit(
-                                              donasi.id.toString());
+                                          deletDonasiSubmit(donasi.id);
                                         },
                                         child: const Text(
                                           'hapus',
@@ -192,11 +196,20 @@ class _BodyReportDonasiState extends State<BodyReportDonasi> {
     );
   }
 
-  Future<void> deletDonasiSubmit(String id) async {
+  String doubleParseTime(int digitTime) {
+    if (digitTime < 10) {
+      return '0$digitTime';
+    } else {
+      return '$digitTime';
+    }
+  }
+
+  Future<void> deletDonasiSubmit(int id) async {
     final prefs = await SharedPreferences.getInstance();
     var prefToken = prefs.getString('Token');
+    String? token = prefToken;
 
-    var response = await repoDonasi.deletDonsiRepo(id, prefToken);
+    var response = await repoDonasi.deletDonsiRepo(token!, id);
     if (response.status == 200) {
       print(response.message);
     } else {

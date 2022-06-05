@@ -26,19 +26,6 @@ class _BodyHomeState extends State<BodyHome> {
 
   TextEditingController searchController = TextEditingController();
 
-  // searchProgramData(String nama) {
-  //   searchProgram.clear();
-  //   if (nama.isEmpty) {
-  //     setState(() {});
-  //     return;
-  //   }
-
-  //   listProgram.forEach((f) {
-  //     if (f.title.contains(nama) || f.id.toString().contains(nama))
-  //       searchProgram.add(f);
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

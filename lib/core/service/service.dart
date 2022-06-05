@@ -11,6 +11,7 @@ import 'package:donasi_app/core/response/resp_edit_profile.dart';
 import 'package:donasi_app/core/response/resp_login_user.dart';
 import 'package:donasi_app/core/response/resp_register_user.dart';
 import 'package:donasi_app/core/utils/value.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get_connect/http/src/request/request.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
@@ -113,7 +114,7 @@ class ServiceUser {
     alamat,
     tanggalLahir,
     noHp,
-    int id,
+    id,
     String token,
   ) async {
     var response = await http.put(
@@ -161,7 +162,7 @@ class ServiceUser {
 //edit password
   Future<ResponseEditPassword> editPasswordService(
     String token,
-    int id,
+    id,
     password,
   ) async {
     var response = await http.put(Uri.parse('$BASE_URL/api/editPassword/$id'),
@@ -182,7 +183,7 @@ class ServiceUser {
   //add image profile
   Future<ResponseEditImageProfile> editProfileImagSrvice(
     String token,
-    id,
+    int id,
     File? fileImage,
   ) async {
     var stream = http.ByteStream(fileImage!.openRead());
@@ -193,6 +194,31 @@ class ServiceUser {
     request.files.add(http.MultipartFile('image', stream, fileLength,
         filename: fileImage.path));
     request.headers.addAll(headers);
+    var streamResponse = await request.send();
+    var parseResponse = await http.Response.fromStream(streamResponse);
+    var responseJson = json.decode(parseResponse.body);
+    return ResponseEditImageProfile.fromJson(responseJson);
+  }
+
+  //delet img profile
+  Future<ResponseEditImageProfile> deletProfileImageService(
+    String token,
+    id,
+    String title,
+    File? fileImage,
+  ) async {
+    Map<String, String> headers = {"token": '$token'};
+    var uri = Uri.parse('$BASE_URL/api/addImageUser/$id');
+    var request = await http.MultipartRequest("PUT", uri);
+    var picture = http.MultipartFile.fromBytes(
+        'image',
+        (await rootBundle.load('assets/icons/icon_user.png'))
+            .buffer
+            .asUint8List(),
+        filename: 'icon_user.png');
+    request.headers.addAll(headers);
+    request.files.add(picture);
+
     var streamResponse = await request.send();
     var parseResponse = await http.Response.fromStream(streamResponse);
     var responseJson = json.decode(parseResponse.body);
@@ -225,8 +251,8 @@ class ServiceUser {
 
   //delet donasi
   Future<ResponseDeletDonasi> deletDonasiService(
+    int id,
     String? token,
-    id,
   ) async {
     var response = await http.delete(
       Uri.parse('$BASE_URL/api/deletDonasi/$id'),
@@ -240,22 +266,22 @@ class ServiceUser {
     return ResponseDeletDonasi.fromJson(responseDeletDonasi);
   }
 
-  //delet image profile
-  Future<ResponseDeletImageProfile> deletImgProfilService(
-    String token,
-    id,
-  ) async {
-    var response = await http.delete(
-      Uri.parse('$BASE_URL/api/deletUser/$id'),
-      headers: {
-        'Content-type': 'application/json',
-        'Accept': 'application/json',
-        'token': '$token'
-      },
-    );
-    var responseDeltImgProfile = json.decode(response.body);
-    return ResponseDeletImageProfile.fromJson(responseDeltImgProfile);
-  }
+  // //delet image profile
+  // Future<ResponseDeletImageProfile> deletImgProfilService(
+  //   String token,
+  //   int id,
+  // ) async {
+  //   var response = await http.delete(
+  //     Uri.parse('$BASE_URL/api/deletUser/$id'),
+  //     headers: {
+  //       'Content-type': 'application/json',
+  //       'Accept': 'application/json',
+  //       'token': '$token'
+  //     },
+  //   );
+  //   var responseDeltImgProfile = json.decode(response.body);
+  //   return ResponseDeletImageProfile.fromJson(responseDeltImgProfile);
+  // }
 
   //add struck donasi
   Future<ResponseAddStrukDonasi> addStruckDonasiService(

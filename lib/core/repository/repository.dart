@@ -109,7 +109,7 @@ class Repository extends ServiceUser {
   //edit image profile
   Future<ResponseEditImageProfile> editImageProfileRepo(
     String token,
-    id,
+    int id,
     File filePathImage,
   ) async {
     return apiServiceUser.editProfileImagSrvice(token, id, filePathImage);
@@ -129,7 +129,7 @@ class Repository extends ServiceUser {
   //delet donasi
   Future<ResponseDeletDonasi> deletDonsiRepo(
     String token,
-    id,
+    int id,
   ) async {
     return apiServiceUser.deletDonasiService(
       id,
@@ -138,11 +138,18 @@ class Repository extends ServiceUser {
   }
 
 //delet img profile
-  Future<ResponseDeletImageProfile> deletImgProfileRepo(
+  Future<ResponseEditImageProfile> deletImgProfileRepo(
     String token,
     id,
+    title,
+    File? fileImage,
   ) async {
-    return apiServiceUser.deletImgProfilService(token, id);
+    return apiServiceUser.deletProfileImageService(
+      token,
+      id,
+      title,
+      fileImage,
+    );
   }
 
   //add struck donasi

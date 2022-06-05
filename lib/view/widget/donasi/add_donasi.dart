@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:donasi_app/colors/colors.dart';
 import 'package:donasi_app/core/repository/repository.dart';
+import 'package:donasi_app/view/widget/home/notification_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,11 +25,14 @@ class _AddDonasiState extends State<AddDonasi> {
   void initState() {
     super.initState();
     jumlahDonasiControll = TextEditingController();
+    NotificationWidget.init();
   }
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery
+        .of(context)
+        .size;
     return SizedBox(
       height: size.height,
       width: double.infinity,
@@ -67,6 +71,9 @@ class _AddDonasiState extends State<AddDonasi> {
                       onPressed: () {
                         setState(() {
                           addDonasiSubmit(jumlahDonasi, context);
+                          NotificationWidget.showNotification(
+                              title: 'Notifikasi',
+                              body: 'tolong segera konfirmasi struck anda sbelum hilang');
                         });
                       },
                       child: const Text(
@@ -86,10 +93,8 @@ class _AddDonasiState extends State<AddDonasi> {
   }
 
 // add donasi submit
-  Future<void> addDonasiSubmit(
-    int jumlahDonasi,
-    BuildContext ctx,
-  ) async {
+  Future<void> addDonasiSubmit(int jumlahDonasi,
+      BuildContext ctx,) async {
     final prefs = await SharedPreferences.getInstance();
     var prefToken = prefs.getString('Token');
     var prefIdUser = prefs.getInt('Id');
@@ -126,16 +131,17 @@ class _AddDonasiState extends State<AddDonasi> {
   Future<void> showDonasiDialog(String title, message) {
     return showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(title),
-        content: Text(message),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Ok'),
+      builder: (context) =>
+          AlertDialog(
+            title: Text(title),
+            content: Text(message),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: const Text('Ok'),
+              ),
+            ],
           ),
-        ],
-      ),
     );
   }
 }

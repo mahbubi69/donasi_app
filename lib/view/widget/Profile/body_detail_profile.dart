@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 class DetailProfile extends StatelessWidget {
   final String nama, alamat, tglLahir, noHp;
   ImageProvider image;
-  VoidCallback onpres;
+  VoidCallback onpres, onpresImage;
+
   DetailProfile({
     Key? key,
     required this.nama,
@@ -15,6 +16,7 @@ class DetailProfile extends StatelessWidget {
     required this.noHp,
     required this.image,
     required this.onpres,
+    required this.onpresImage,
   }) : super(key: key);
 
   @override
@@ -87,17 +89,19 @@ class DetailProfile extends StatelessWidget {
                       fontSize: 35, letterSpacing: 1.5, color: Colors.white),
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.all(10.0),
-                width: 200,
-                height: 180,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white, width: 5),
-                  shape: BoxShape.circle,
-                  color: Colors.white,
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: image,
+              GestureDetector(
+                child: Container(
+                  padding: const EdgeInsets.all(10.0),
+                  width: 200,
+                  height: 180,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white, width: 5),
+                    shape: BoxShape.circle,
+                    color: Colors.white,
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: image,
+                    ),
                   ),
                 ),
               )
@@ -106,5 +110,52 @@ class DetailProfile extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  //dialog profile
+  Future<void> showDialogProfile(
+    BuildContext ctx,
+    ImageProvider imgProf,
+  ) {
+    return showDialog(
+        context: ctx,
+        builder: (ctx) {
+          return Center(
+            child: Material(
+              type: MaterialType.transparency,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: amber,
+                ),
+                padding: const EdgeInsets.all(15),
+                width: MediaQuery.of(ctx).size.width * 0.7,
+                height: 325,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(5),
+                      child: Container(
+                        padding: const EdgeInsets.all(10.0),
+                        width: 200,
+                        height: 180,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white, width: 5),
+                          shape: BoxShape.circle,
+                          color: Colors.white,
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: imgProf,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
   }
 }

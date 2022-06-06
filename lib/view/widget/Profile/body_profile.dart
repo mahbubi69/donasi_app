@@ -129,7 +129,7 @@ class _BodyPofileState extends State<BodyPofile> {
                                 },
                                 image: profile.data.image.isEmpty ?? true
                                     ? const AssetImage(
-                                            'assets/icons/icon_user.png')
+                                            'assets/icon/icon_user.png')
                                         as ImageProvider
                                     : NetworkImage(
                                         BASE_URL + profile.data.image),

@@ -62,7 +62,7 @@ class _BodyLoginState extends State<BodyLogin> {
                         height: 1),
                   ),
                   Image.asset(
-                    'assets/icons/bg_login.png',
+                    'assets/icon/bg_login.png',
                     height: size.height * 0.40,
                   ),
                   SizedBox(

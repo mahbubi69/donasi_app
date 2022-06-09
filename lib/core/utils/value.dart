@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-String BASE_URL = 'https://df36-180-253-164-170.ngrok.io';
+String BASE_URL = 'https://dev.donasi.jelajahin.com/';
 
 //set token
 void prefSetToken(String token) async {

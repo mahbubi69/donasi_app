@@ -48,7 +48,7 @@ class _AddStruckDonasiState extends State<AddStruckDonasi> {
                                       height: 200,
                                       width: 200,
                                       child: Image.asset(
-                                          'assets/icons/camera_donasi.png'),
+                                          'assets/icon/camera_donasi.png'),
                                     )
                                   : Container(
                                       height: 200,
@@ -72,7 +72,11 @@ class _AddStruckDonasiState extends State<AddStruckDonasi> {
                         onPressed: () {
                           setState(
                             () {
-                              addStruckDonasiSubmit(imageFile!);
+                              imageFile == null
+                                  ? showStruckDonasiDialog(
+                                      'Error', "Silahkan foto dulu struck anda")
+                                  : addStruckDonasiSubmit(imageFile!);
+                              // addStruckDonasiSubmit(imageFile!);
                             },
                           );
                         },
@@ -93,7 +97,7 @@ class _AddStruckDonasiState extends State<AddStruckDonasi> {
     );
   }
 
-  Future<void> addStruckDonasiSubmit(File fileStruck) async {
+  Future<void> addStruckDonasiSubmit(File? fileStruck) async {
     final prefs = await SharedPreferences.getInstance();
     var prefToken = prefs.getString('Token');
     var prefIdDonasi = prefs.getInt('IdDonasi');
@@ -145,6 +149,7 @@ class _AddStruckDonasiState extends State<AddStruckDonasi> {
     setState(() {
       this.imageFile = imageTemporary;
     });
+
     //pop menu style
     void chooseImage(BuildContext ctx) {
       showDialog(

@@ -5,7 +5,6 @@ import 'package:donasi_app/core/model/model_program.dart';
 import 'package:donasi_app/core/response/resp_add_image_profile.dart';
 import 'package:donasi_app/core/response/resp_add_struck_donasi.dart';
 import 'package:donasi_app/core/response/resp_delet_donasi.dart';
-import 'package:donasi_app/core/response/resp_delet_image_profile.dart';
 import 'package:donasi_app/core/response/resp_add_donasi.dart';
 import 'package:donasi_app/core/response/resp_edit_password.dart';
 import 'package:donasi_app/core/response/resp_program.dart';
@@ -128,8 +127,8 @@ class Repository extends ServiceUser {
 
   //delet donasi
   Future<ResponseDeletDonasi> deletDonsiRepo(
-    String token,
     int id,
+    String token,
   ) async {
     return apiServiceUser.deletDonasiService(
       id,

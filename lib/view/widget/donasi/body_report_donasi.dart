@@ -26,6 +26,7 @@ class _BodyReportDonasiState extends State<BodyReportDonasi> {
   Timer? timer;
   final cron = Cron();
   var timeCron;
+  // final keyRefresh = GlobalKey<RefreshIndicatorState>();
 
   @override
   void initState() {
@@ -35,7 +36,7 @@ class _BodyReportDonasiState extends State<BodyReportDonasi> {
 
   schedulAutoDeletDonasi(int id) {
     cron.schedule(
-        Schedule.parse('*/2 * * * *'),
+        Schedule.parse('* */5 * * *'),
         () async => {
               deletDonasiSubmit(id),
               NotificationWidget.showNotification(
@@ -65,130 +66,143 @@ class _BodyReportDonasiState extends State<BodyReportDonasi> {
               return const Center(child: CircularProgressIndicator());
             } else {
               List<Donasi> dataDonasi = snapshot.data;
-              return Expanded(
-                  child: GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 1,
-                        // childAspectRatio: 0.75,
-                      ),
-                      itemCount: dataDonasi.length,
-                      itemBuilder: (context, index) {
-                        Donasi donasi = dataDonasi[index];
-                        var parseDate =
-                            getParseFormateDate(donasi.dateDonation.toString());
-                        return Card(
-                          clipBehavior: Clip.antiAlias,
-                          color: primaryAmber,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30)),
-                          child: Column(
-                            children: <Widget>[
-                              Stack(
-                                children: [
-                                  donasi.buktiDonation.isEmpty ?? true
-                                      ? GestureDetector(
-                                          onTap: () {
-                                            prefSetIdDonasi(donasi.id);
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (index) =>
-                                                        AddStruckDonasi()));
-                                          },
-                                          child: Column(
-                                            children: [
-                                              Image.asset(
-                                                'assets/icons/camera_donasi.png',
-                                                height: 200,
-                                                width: 200,
-                                              ),
-                                              const Text(
-                                                'waktu akan habis',
-                                                // 'waktu akan habis ${schedulAutoDeletDonasi(donasi.id)}',
-                                                style: TextStyle(
-                                                    fontSize: 20,
-                                                    color: Colors.red),
-                                              ),
-                                              Container(
-                                                child: schedulAutoDeletDonasi(
-                                                    donasi.id),
-                                              ),
-                                              Text(
-                                                  '${endTimer.inHours} : ${doubleParseTime(endTimer.inMinutes % 60)} ${doubleParseTime(endTimer.inSeconds % 60)}')
-                                            ],
-                                          ))
-                                      : Image.network(
-                                          BASE_URL + donasi.buktiDonation,
-                                          height: 250,
-                                          width: 250,
-                                        )
-                                ],
-                              ),
-                              SizedBox(
-                                height: size.height * 0.01,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
+              return
+                  // RefreshIndicator(
+                  //   key: keyRefresh,
+                  //   onRefresh: () async {
+                  //     await Future.delayed(Duration(milliseconds: 1500));
+                  //     setState(() {
+                  //       // repoDonasi.getReportDonasiRepo();
+                  //       dataDonasi.length;
+                  //     });
+                  //   },
+                  //   child:
+                  Expanded(
+                      child: GridView.builder(
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 1,
+                            // childAspectRatio: 0.75,
+                          ),
+                          itemCount: dataDonasi.length,
+                          itemBuilder: (context, index) {
+                            Donasi donasi = dataDonasi[index];
+                            var parseDate = getParseFormateDate(
+                                donasi.dateDonation.toString());
+                            return Card(
+                              clipBehavior: Clip.antiAlias,
+                              color: primaryAmber,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30)),
+                              child: Column(
                                 children: <Widget>[
-                                  const Icon(
-                                    Icons.date_range_outlined,
-                                    color: amber,
-                                  ),
-                                  Text(
-                                    parseDate,
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 17,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: size.height * 0.01,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  const Icon(
-                                    Icons.money_off_csred_outlined,
-                                    color: amber,
-                                  ),
-                                  Text(
-                                    'Rp.' + donasi.jumlahDonasi.toString(),
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: <Widget>[
-                                  ButtonBar(
-                                    alignment: MainAxisAlignment.start,
+                                  Stack(
                                     children: [
-                                      FlatButton(
-                                        onPressed: () {
-                                          deletDonasiSubmit(donasi.id);
-                                        },
-                                        child: const Text(
-                                          'hapus',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.redAccent,
-                                              fontSize: 17),
+                                      donasi.buktiDonation.isEmpty ?? true
+                                          ? GestureDetector(
+                                              onTap: () {
+                                                prefSetIdDonasi(donasi.id);
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (index) =>
+                                                            AddStruckDonasi()));
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  Image.asset(
+                                                    'assets/icon/camera_donasi.png',
+                                                    height: 200,
+                                                    width: 200,
+                                                  ),
+                                                  const Text(
+                                                    'Tolong segera donasi waktu akan habis',
+                                                    // 'waktu akan habis ${schedulAutoDeletDonasi(donasi.id)}',
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        color: Colors.red),
+                                                  ),
+                                                  Container(
+                                                    child:
+                                                        schedulAutoDeletDonasi(
+                                                            donasi.id),
+                                                  ),
+                                                  Text(
+                                                      '${endTimer.inHours} : ${doubleParseTime(endTimer.inMinutes % 60)} ${doubleParseTime(endTimer.inSeconds % 60)}')
+                                                ],
+                                              ))
+                                          : Image.network(
+                                              BASE_URL + donasi.buktiDonation,
+                                              height: 250,
+                                              width: 250,
+                                            )
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: size.height * 0.01,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      const Icon(
+                                        Icons.date_range_outlined,
+                                        color: amber,
+                                      ),
+                                      Text(
+                                        parseDate,
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 17,
                                         ),
                                       ),
                                     ],
+                                  ),
+                                  SizedBox(
+                                    height: size.height * 0.01,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      const Icon(
+                                        Icons.money_off_csred_outlined,
+                                        color: amber,
+                                      ),
+                                      Text(
+                                        'Rp.' + donasi.jumlahDonasi.toString(),
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: <Widget>[
+                                      ButtonBar(
+                                        alignment: MainAxisAlignment.start,
+                                        children: [
+                                          FlatButton(
+                                            onPressed: () {
+                                              deletDonasiSubmit(donasi.id);
+                                            },
+                                            child: const Text(
+                                              'hapus',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.redAccent,
+                                                  fontSize: 17),
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
                                   )
                                 ],
-                              )
-                            ],
-                          ),
-                        );
-                      }));
+                              ),
+                            );
+                          }));
+              // );
             }
           },
         )
@@ -209,7 +223,7 @@ class _BodyReportDonasiState extends State<BodyReportDonasi> {
     var prefToken = prefs.getString('Token');
     String? token = prefToken;
 
-    var response = await repoDonasi.deletDonsiRepo(token!, id);
+    var response = await repoDonasi.deletDonsiRepo(id, token!);
     if (response.status == 200) {
       print(response.message);
     } else {

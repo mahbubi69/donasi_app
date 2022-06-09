@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:donasi_app/colors/colors.dart';
 import 'package:donasi_app/view/screen/login_screen.dart';
+import 'package:donasi_app/view/screen/profile_screen.dart';
 import 'package:donasi_app/view/widget/navigation/navigation_bar_style.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -23,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
     //     const Duration(seconds: 2),
     //     () => Navigator.pushReplacement(
     //           context,
-    //           MaterialPageRoute(builder: (context) => const LoginScreen()),
+    //           MaterialPageRoute(builder: (context) => const ProfileScreen()),
     //         ));
     chekToken();
   }

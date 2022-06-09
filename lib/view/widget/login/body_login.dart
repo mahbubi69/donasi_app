@@ -33,6 +33,7 @@ class _BodyLoginState extends State<BodyLogin> {
 
   GlobalKey<FormState> fromKey = GlobalKey();
   bool shouldPop = true;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -157,6 +158,16 @@ class _BodyLoginState extends State<BodyLogin> {
                       ),
                     ),
                   ),
+                  InkWell(
+                    child: Text(
+                      "Lupa Password ?",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    onTap: () {},
+                  ),
+                  SizedBox(
+                    height: size.height * 0.01,
+                  ),
                   // chek akun
                   AllReadyAccountChek(
                     press: () {
@@ -165,7 +176,7 @@ class _BodyLoginState extends State<BodyLogin> {
                           MaterialPageRoute(
                               builder: (context) => const RegisterScreen()));
                     },
-                  )
+                  ),
                 ],
               ),
             ))

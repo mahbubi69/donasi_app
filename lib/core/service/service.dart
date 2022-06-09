@@ -212,7 +212,7 @@ class ServiceUser {
     var request = await http.MultipartRequest("PUT", uri);
     var picture = http.MultipartFile.fromBytes(
         'image',
-        (await rootBundle.load('assets/icons/icon_user.png'))
+        (await rootBundle.load('assets/icon/icon_user.png'))
             .buffer
             .asUint8List(),
         filename: 'icon_user.png');
@@ -265,23 +265,6 @@ class ServiceUser {
     var responseDeletDonasi = json.decode(response.body);
     return ResponseDeletDonasi.fromJson(responseDeletDonasi);
   }
-
-  // //delet image profile
-  // Future<ResponseDeletImageProfile> deletImgProfilService(
-  //   String token,
-  //   int id,
-  // ) async {
-  //   var response = await http.delete(
-  //     Uri.parse('$BASE_URL/api/deletUser/$id'),
-  //     headers: {
-  //       'Content-type': 'application/json',
-  //       'Accept': 'application/json',
-  //       'token': '$token'
-  //     },
-  //   );
-  //   var responseDeltImgProfile = json.decode(response.body);
-  //   return ResponseDeletImageProfile.fromJson(responseDeltImgProfile);
-  // }
 
   //add struck donasi
   Future<ResponseAddStrukDonasi> addStruckDonasiService(

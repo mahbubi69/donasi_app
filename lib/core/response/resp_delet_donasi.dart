@@ -12,13 +12,13 @@ class ResponseDeletDonasi {
     required this.message,
   });
 
-  final int status;
-  final String message;
+  final int? status;
+  final String? message;
 
   factory ResponseDeletDonasi.fromJson(Map<String, dynamic> json) =>
       ResponseDeletDonasi(
         status: json["Status"] == null ? 0 : json["Status"],
-        message: json["message"] == null ? null : json["message"],
+        message: json["message"] == null ? '' : json["message"],
       );
 
   Map<String, dynamic> toJson() => {

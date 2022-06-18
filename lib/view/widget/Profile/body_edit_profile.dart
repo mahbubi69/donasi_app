@@ -52,6 +52,7 @@ class _BodyEditProfileState extends State<BodyEditProfile> {
               controller: namaControll,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
+                labelText: 'Nama',
                 hintText: 'Nama',
               ),
             ),
@@ -62,6 +63,7 @@ class _BodyEditProfileState extends State<BodyEditProfile> {
               controller: alamatControll,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
+                labelText: 'Alamat',
                 hintText: 'Alamat',
               ),
             ),
@@ -72,7 +74,8 @@ class _BodyEditProfileState extends State<BodyEditProfile> {
               controller: tglLahirControll,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: 'tanggal',
+                labelText: 'Tanngal Lahir',
+                hintText: 'Tahun-Bulan-Hari',
               ),
             ),
           ),
@@ -82,6 +85,7 @@ class _BodyEditProfileState extends State<BodyEditProfile> {
               controller: nohpaControll,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
+                labelText: 'No_Hp',
                 hintText: 'No_Hp',
               ),
             ),

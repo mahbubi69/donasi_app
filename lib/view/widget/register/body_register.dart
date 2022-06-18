@@ -288,7 +288,6 @@ class _BodyRegisterState extends State<BodyRegister> {
     String role = '2';
     String alamat = alamatControll.value.text;
     String jenisKelamin = jenisKelaminControll.value.text;
-    // String jenisKelamin = 'L';
     String tanggalLahir = tanggalLahirControll.value.text;
     String nomorHp = nomorHpControll.value.text;
 

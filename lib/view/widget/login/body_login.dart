@@ -159,7 +159,7 @@ class _BodyLoginState extends State<BodyLogin> {
                     ),
                   ),
                   InkWell(
-                    child: Text(
+                    child: const Text(
                       "Lupa Password ?",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),

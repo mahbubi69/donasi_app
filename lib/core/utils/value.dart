@@ -1,6 +1,8 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-String BASE_URL = 'https://dev.donasi.jelajahin.com/';
+// String BASE_URL = 'https://dev.donasi.jelajahin.com/';
+
+String BASE_URL = 'https://dev.donasi.jelajahin.com';
 
 //set token
 void prefSetToken(String token) async {
@@ -9,8 +11,6 @@ void prefSetToken(String token) async {
   prefs.setString('Token', token);
 }
 
-//set id
-// ignore: non_constant_identifier_names
 void prefSetId(int id) async {
   //shared prefens
   final prefs = await SharedPreferences.getInstance();
